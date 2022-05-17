@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class MenuController {
 
 
+    private ItemRepository itemRepository;
     private List<Item> items = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
     private int currentMenu;
@@ -21,16 +22,7 @@ public class MenuController {
 
         this.currentMenu = 1; // default menu is menu 1.
         // Dependency inversion done below????
-        data = new ItemDaoImpl().GetItems();
-        for (ItemRepository itemdata : data) {
-            this.items.add(new Item
-                    (itemdata.getMenuItemID(),
-                            itemdata.getMenuNumber(),
-                            itemdata.getCourseType(),
-                            itemdata.getName(),
-                            itemdata.getDescription(),
-                            itemdata.getPrice()));
-        }
+        data = new ArrayList<>();
     }
 
     //public void loadMenu(int menuNumber) {
