@@ -2,24 +2,25 @@ package Database;
 
 import Logic.Interfaces.ItemRepository;
 import Logic.Item;
+import Logic.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDaoImpl extends Database implements ItemRepository {
+public class ItemDAL extends Database implements ItemRepository {
 
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<ItemDTO> getItems() {
 
         String query = "SELECT * FROM menuitem";
-        ArrayList<Item> allMenuItemsList = new ArrayList<>();
+        ArrayList<ItemDTO> allMenuItemsList = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                Item item = new Item
+                ItemDTO item = new ItemDTO
                         (rs.getInt("menuitemid"),
                                 rs.getInt("menunumber"),
                                 rs.getString("coursetype"),
@@ -34,10 +35,10 @@ public class ItemDaoImpl extends Database implements ItemRepository {
         return allMenuItemsList;
     }
 
-    public ArrayList<Item> selectMenu(int menunumber) {
+    public ArrayList<ItemDTO> selectMenu(int menunumber) {
 
         String query = "SELECT * FROM menuitem WHERE menunumber = ?";
-        ArrayList<Item> itemList = new ArrayList<>();
+        ArrayList<ItemDTO> itemList = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(query)
@@ -47,7 +48,7 @@ public class ItemDaoImpl extends Database implements ItemRepository {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Item item = new Item
+                ItemDTO item = new ItemDTO
                         (rs.getInt("menuitemid"),
                                 rs.getInt("menunumber"),
                                 rs.getString("coursetype"),

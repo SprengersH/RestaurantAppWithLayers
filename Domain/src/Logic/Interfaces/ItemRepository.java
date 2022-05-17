@@ -1,12 +1,13 @@
 package Logic.Interfaces;
 
 import Logic.Item;
+import Logic.ItemDTO;
 
 import java.util.ArrayList;
 
 public interface ItemRepository {
 
-    ArrayList<Item> getItems();
+    ArrayList<ItemDTO> getItems();
 
-    ArrayList<Item> selectMenu(int menunumber);
+    ArrayList<ItemDTO> selectMenu(int menunumber);
 }

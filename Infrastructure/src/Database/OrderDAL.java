@@ -1,5 +1,6 @@
 package Database;
 
+import Logic.Interfaces.ItemRepository;
 import Logic.Interfaces.OrderRepository;
 import Logic.Item;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderData extends Database implements OrderRepository {
+public class OrderDAL extends Database implements OrderRepository {
 
 
     // this should be FED the data instead of pushing it, and just return the data required.
@@ -33,8 +34,13 @@ public class OrderData extends Database implements OrderRepository {
         }
     }
 
-    /*
-    public void insertOrderToProduct(Order order, List<ItemInterfacer> orderedMenuMenuItems) {
+    @Override
+    public void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems) {
+
+    }
+
+
+   /* public void insertOrderToProduct(Order order, List<ItemInterfacer> orderedMenuMenuItems) {
         String query = "INSERT INTO `order-product` (orderid, productid, tablenumber, active) VALUES (?,?,?,?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              // Generate a prepared statement with the placeholder parameter.

@@ -18,6 +18,7 @@ public class MenuController {
 
         this.currentMenu = 1; // default menu is menu 1.
 
+
         data = new ArrayList<>();
     }
 

@@ -10,7 +10,7 @@ public class OrderController {
     private Scanner scanner = new Scanner(System.in);
     private MenuController menuController;
     private List<Item> items;
-    ItemRepositoryImpl iri;
+    ItemDTO iri;
     private List<Item> itemsToAdd;
     //UI ui = new UI();
 
@@ -19,8 +19,8 @@ public class OrderController {
 
         this.menuController = menuController;
         this.itemsToAdd = new ArrayList();
-        ArrayList<Item> data = iri.getItems();
-        for (Item itemdata : data) {
+        /*ArrayList<ItemDTO> data = iri.getItems();
+        for (ItemDTO itemdata : data) {
             this.items.add(new Item
                     (itemdata.getMenuItemID(),
                             itemdata.getMenuNumber(),
@@ -28,7 +28,7 @@ public class OrderController {
                             itemdata.getName(),
                             itemdata.getDescription(),
                             itemdata.getPrice()));
-        }
+        }*/
     }
 
     public void test() {

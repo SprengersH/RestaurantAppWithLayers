@@ -1,7 +1,5 @@
 package Logic;
 
-import Logic.Interfaces.OrderRepository;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +8,8 @@ public class DbController {
 
     Item dbm;
     Order dbo;
-    ItemRepositoryImpl iri;
-    OrderRepositoryImpl ori;
+    ItemDTO iri;
+    OrderDTO ori;
 
 
 

@@ -1,6 +1,6 @@
 package UI;
 
-import Database.ItemDaoImpl;
+import Database.ItemDAL;
 import Logic.*;
 
 import java.util.ArrayList;
@@ -18,8 +18,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-
-        ArrayList<ItemRepositoryImpl> itemList = new ItemDaoImpl().getItems();
+        ArrayList<ItemDTO> itemList = new ItemDAL().getItems(); // cant put this in domain bc of dependency...
 
         run();
     }
