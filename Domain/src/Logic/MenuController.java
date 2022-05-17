@@ -21,7 +21,7 @@ public class MenuController {
     public MenuController(ArrayList<ItemRepository> data) {
 
         this.currentMenu = 1; // default menu is menu 1.
-        // Dependency inversion done below????
+
         data = new ArrayList<>();
     }
 
