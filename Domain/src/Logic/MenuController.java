@@ -1,8 +1,4 @@
 package Logic;
-
-import Database.ItemDaoImpl;
-import Database.ItemRepository;
-import Database.ItemsDAL;
 import Logic.Interfaces.ItemRepository;
 
 import java.util.ArrayList;
@@ -23,6 +19,10 @@ public class MenuController {
         this.currentMenu = 1; // default menu is menu 1.
 
         data = new ArrayList<>();
+    }
+
+    public MenuController() {
+
     }
 
     //public void loadMenu(int menuNumber) {

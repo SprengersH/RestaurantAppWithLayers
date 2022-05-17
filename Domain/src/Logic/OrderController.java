@@ -10,16 +10,16 @@ public class OrderController {
     private Scanner scanner = new Scanner(System.in);
     private MenuController menuController;
     private List<Item> items;
-
+    ItemRepositoryImpl iri;
     private List<Item> itemsToAdd;
     //UI ui = new UI();
-    OrderData database = new OrderData();
+
 
     public OrderController(MenuController menuController) {
 
         this.menuController = menuController;
         this.itemsToAdd = new ArrayList();
-        ArrayList<Item> data = new Item().GetItems();
+        ArrayList<Item> data = iri.getItems();
         for (Item itemdata : data) {
             this.items.add(new Item
                     (itemdata.getMenuItemID(),
@@ -32,7 +32,7 @@ public class OrderController {
     }
 
     public void test() {
-        database.insertOrder("test", 12.00, 1, 1);
+
     }
 
     public void orderMode() {
@@ -109,7 +109,7 @@ public class OrderController {
 
     private void addOrderToDatabase(Order order) {
         DbController dbc = new DbController();
-        dbc.insertOrder(order);
+        dbc.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
     }
 
 

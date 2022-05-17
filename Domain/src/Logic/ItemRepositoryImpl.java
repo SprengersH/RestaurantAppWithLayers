@@ -5,19 +5,11 @@ import Logic.Item;
 
 import java.util.ArrayList;
 
-public class ItemRepositoryImpl implements ItemRepository {
+public class ItemRepositoryImpl{
 
+    ArrayList<ItemRepository> itemList;
 
-    public ItemRepositoryImpl() {
-    }
-
-    @Override
-    public ArrayList<Item> GetItems() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Item> selectMenu(int menunumber) {
-        return null;
+    public ItemRepositoryImpl(ArrayList<Item> itemList) {
+        ArrayList<Item> itemList = new ItemDaoImpl().getItems();
     }
 }

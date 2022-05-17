@@ -1,13 +1,18 @@
 package Logic;
 
+import Logic.Interfaces.OrderRepository;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbController {
 
-    ItemDao dbm;
-    DBOrdersInterfacer dbo;
+    Item dbm;
+    Order dbo;
+    ItemRepositoryImpl iri;
+    OrderRepositoryImpl ori;
+
 
 
     public DbController() {
@@ -15,43 +20,45 @@ public class DbController {
     }
 
     public void test() {
-        dbm.selectAllMenuItems();
+
+        //dbm.selectAllMenuItems();
+        iri.getItems();
     }
 
     public void showAllMenuItems() {
-        System.out.println(dbm.selectAllMenuItems());
+        iri.getItems();
     }
 
     public void showMenu(int menuNumber) {
-        System.out.println(dbm.selectMenu(menuNumber));
+        System.out.println("This method is gone");
     }
 
-    public ArrayList<ItemDao> loadMenuItems() {
-        return dbm.selectAllMenuItems();
+    public ArrayList<Item> loadMenuItems() {
+        return iri.getItems();
     }
 
-    public void insertOrder(Order order) {
-        dbo.insertOrder(order);
-        dbo.insertOrderToProduct(order, order.getOrderedItems());
+    public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
+        ori.insertOrder(orderID, price, tableNumber, activeOrNot);
+        //ori.insertOrderToProduct(dbo, dbo.getOrderedItems());
         //Main.run();
     }
 
     public String retrieveOrderID(int tableNumber) {
         String id = null;
         try {
-            id = dbo.getOrderidFromTablenumber(tableNumber);
+            id = ori.getOrderidFromTablenumber(tableNumber);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return id;
     }
 
-    public List<ItemDao> retrieveItemList(String orderID) {
-        return dbo.retrieveItemsFromOrder(orderID);
+    public List<Item> retrieveItemList(String orderID) {
+        return ori.retrieveItemsFromOrder(orderID);
     }
 
     public void setAvailable(int tableNumber) {
-        dbo.setAvailable(tableNumber);
+        ori.setAvailable(tableNumber);
         // todo no sout's outside of ui, this should return one or more lists to the ui and the ui should print the statements.
         System.out.println("Table " + tableNumber + " is set available");
     }

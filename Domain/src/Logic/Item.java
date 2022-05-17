@@ -27,37 +27,37 @@ public class Item {
         this.price = price;
     }
 
-    @Override
+
     public int getMenuNumber() {
         return menuNumber;
     }
 
-    @Override
+
     public String getCourseType() {
         return courseType;
     }
 
-    @Override
+
     public int getMenuItemID() {
         return menuItemID;
     }
 
-    @Override
+
     public double getPrice() {
         return price;
     }
 
-    @Override
+
     public String getName() {
         return name;
     }
 
-    @Override
+
     public String getDescription() {
         return description;
     }
 
-    @Override
+    
     public String toString() {
         return "MenuItem{" +
                 menuItemID +

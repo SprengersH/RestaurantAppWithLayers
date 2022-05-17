@@ -28,7 +28,7 @@ public class DBOrders extends Database {
         }
     }
 
-    /*
+
     public void insertOrderToProduct(Order order, List<ItemInterfacer> orderedMenuMenuItems) {
         String query = "INSERT INTO `order-product` (orderid, productid, tablenumber, active) VALUES (?,?,?,?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -49,7 +49,7 @@ public class DBOrders extends Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
 
     public String getOrderidFromTablenumber(int tableNumber) throws SQLException {

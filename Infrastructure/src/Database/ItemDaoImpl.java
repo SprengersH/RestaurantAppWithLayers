@@ -8,9 +8,8 @@ import java.util.ArrayList;
 
 public class ItemDaoImpl extends Database implements ItemRepository {
 
-    private ItemRepository itemrepository;
 
-    public ArrayList<Item> GetItems() {
+    public ArrayList<Item> getItems() {
 
         String query = "SELECT * FROM menuitem";
         ArrayList<Item> allMenuItemsList = new ArrayList<>();
@@ -34,6 +33,7 @@ public class ItemDaoImpl extends Database implements ItemRepository {
         }
         return allMenuItemsList;
     }
+
     public ArrayList<Item> selectMenu(int menunumber) {
 
         String query = "SELECT * FROM menuitem WHERE menunumber = ?";

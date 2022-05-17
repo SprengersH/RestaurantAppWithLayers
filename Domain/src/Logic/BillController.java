@@ -17,7 +17,7 @@ public class BillController {
         int tableNumber = getInput();
         String orderID = retrieveOrderID(tableNumber);
 
-        List<ItemDao> menuItemsToBill = getItemListFromOrderID(orderID);
+        List<Item> menuItemsToBill = getItemListFromOrderID(orderID);
         billCreator(tableNumber, orderID, menuItemsToBill);
         System.out.println("Checkout 'Y' to clear table and return to main menu \n 'N' returns to main menu without checking out");
 
@@ -39,12 +39,12 @@ public class BillController {
         }
     }
 
-    private void billCreator(int tableNumber, String orderID, List<ItemDao> menuItemsToBill) {
+    private void billCreator(int tableNumber, String orderID, List<Item> menuItemsToBill) {
         Bill bill = new Bill(tableNumber, orderID, menuItemsToBill);
         System.out.println(bill);
     }
 
-    private List<ItemDao> getItemListFromOrderID(String orderID) {
+    private List<Item> getItemListFromOrderID(String orderID) {
        return dbController.retrieveItemList(orderID);
     }
 

@@ -18,8 +18,9 @@ public class Main {
 
 
     public static void main(String[] args) {
-        ItemDaoImpl itemDao = new ItemDaoImpl();
-        ArrayList<Item> itemList = new ItemDaoImpl().GetItems();
+
+        ArrayList<ItemRepositoryImpl> itemList = new ItemDaoImpl().getItems();
+
         run();
     }
 
