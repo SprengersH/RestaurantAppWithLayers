@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class ItemRepositoryImpl implements ItemRepository {
 
 
+    public ItemRepositoryImpl() {
+    }
+
     @Override
     public ArrayList<Item> GetItems() {
         return null;

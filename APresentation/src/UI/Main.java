@@ -1,7 +1,9 @@
 package UI;
 
+import Database.ItemDaoImpl;
 import Logic.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -14,11 +16,15 @@ public class Main {
     static OrderController orderController = new OrderController(menuController);
     static BillController billController = new BillController(dbController);
 
+
     public static void main(String[] args) {
+        ItemDaoImpl itemDao = new ItemDaoImpl();
+        ArrayList<Item> itemList = new ItemDaoImpl().GetItems();
         run();
     }
 
     public static void run() {
+
         Scanner scanner = new Scanner(System.in);
         UI ui = new UI();
         ui.showMainMenu();
