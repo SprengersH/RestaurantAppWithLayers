@@ -8,8 +8,8 @@ public class DbController {
 
     Item dbm;
     Order dbo;
-    ItemDTO iri;
-    OrderDTO ori;
+    ItemDTO itemDTO;
+    OrderDTO orderDTO;
 
 
 
