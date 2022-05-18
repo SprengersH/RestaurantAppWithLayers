@@ -1,30 +1,28 @@
 package Controllers;
 
-import DTO.ItemDTO;
-import DTO.OrderDTO;
 import Entities.Item;
-import Entities.Order;
+import Interfaces.ItemRepository;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DbController {
 
-    Item dbm;
-    Order dbo;
-    ItemDTO itemDTO;
-    OrderDTO orderDTO;
-    ArrayList<ItemDTO> itemList;
+    ItemRepository itemRepo;
 
+    public DbController(ItemRepository itemRepo) {
 
-    public DbController() {
+        this.itemRepo = itemRepo;
 
     }
 
-    public void test(ArrayList<ItemDTO> itemList) {
+    public void test2() {
+        ArrayList<Item> items = itemRepo.getItems();
+        System.out.println(items);
+    }
 
-        for (ItemDTO item : itemList) {
+    public void test(ArrayList<Item> itemList) {
+
+        for (Item item : itemList) {
             System.out.println(item);
 
         }
@@ -38,7 +36,7 @@ public class DbController {
         System.out.println("This method is gone");
     }
 
-    public ArrayList<Item> loadMenuItems() {
+    public ArrayList<Entities.Item> loadMenuItems() {
         return null;
     }
 

@@ -1,31 +1,28 @@
 package UI;
 
-import Controllers.BillController;
 import Controllers.DbController;
 import Controllers.MenuController;
 import Controllers.OrderController;
-import DTO.ItemDTO;
 import Database.ItemDAL;
 import Entities.Restaurant;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     // had to make all of these static in order to be able to go back to the main menu (option 4 from menuController)
     // if i didn't, a new restaurant object would be recreated everytime I went back to the main page (run()) and all the options would be reset.
 
-    static DbController dbController = new DbController();
+    //static DbController dbController = new DbController(new ItemDAL());
     static Restaurant myRestaurant = new Restaurant(10);
     static MenuController menuController = new MenuController();
     static OrderController orderController = new OrderController(menuController);
-    static BillController billController = new BillController(dbController);
+    // static BillController billController = new BillController(dbController);
 
 
     public static void main(String[] args) {
-        ArrayList<ItemDTO> itemList = new ItemDAL().getItems(); // cant put this in domain bc of dependency...
-        DbController dbc = new DbController(itemList);
-        dbController.test(itemList); // now i have a list of ItemDTO's in the domain layer. Should this controller be in the presentation layer??
+
+        DbController dbc = new DbController(new ItemDAL());
+        dbc.test2();
         run();
     }
 
@@ -57,7 +54,7 @@ public class Main {
             case (4) -> {
                 System.out.println("selected checkout");
                 System.out.println("Enter tablenumber to checkout:.....");
-                billController.billMode();
+                //billController.billMode();
 
             }
             // TODO this should ask for a time period and show you the sales in that period.

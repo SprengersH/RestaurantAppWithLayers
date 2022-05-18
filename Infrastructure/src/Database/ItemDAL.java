@@ -1,7 +1,7 @@
 package Database;
 
+import Entities.Item;
 import Interfaces.ItemRepository;
-import DTO.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,17 +9,17 @@ import java.util.ArrayList;
 public class ItemDAL extends DatabasePath implements ItemRepository {
 
 
-    public ArrayList<ItemDTO> getItems() {
+    public ArrayList<Item> getItems() {
 
         String query = "SELECT * FROM menuitem";
-        ArrayList<ItemDTO> allMenuItemsList = new ArrayList<>();
+        ArrayList<Item> allMenuItemsList = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                ItemDTO item = new ItemDTO
+                Item item = new Item
                         (rs.getInt("menuitemid"),
                                 rs.getInt("menunumber"),
                                 rs.getString("coursetype"),
@@ -34,10 +34,10 @@ public class ItemDAL extends DatabasePath implements ItemRepository {
         return allMenuItemsList;
     }
 
-    public ArrayList<ItemDTO> selectMenu(int menunumber) {
+    public ArrayList<Item> selectMenu(int menunumber) {
 
         String query = "SELECT * FROM menuitem WHERE menunumber = ?";
-        ArrayList<ItemDTO> itemList = new ArrayList<>();
+        ArrayList<Item> itemList = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(query)
@@ -47,7 +47,7 @@ public class ItemDAL extends DatabasePath implements ItemRepository {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                ItemDTO item = new ItemDTO
+                Item item = new Item
                         (rs.getInt("menuitemid"),
                                 rs.getInt("menunumber"),
                                 rs.getString("coursetype"),

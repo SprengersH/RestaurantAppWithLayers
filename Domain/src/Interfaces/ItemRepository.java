@@ -1,12 +1,12 @@
 package Interfaces;
 
-import DTO.ItemDTO;
+import Entities.Item;
 
 import java.util.ArrayList;
 
 public interface ItemRepository {
 
-    ArrayList<ItemDTO> getItems();
+    ArrayList<Item> getItems();
 
-    ArrayList<ItemDTO> selectMenu(int menunumber);
+    ArrayList<Item> selectMenu(int menunumber);
 }

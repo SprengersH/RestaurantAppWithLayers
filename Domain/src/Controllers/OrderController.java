@@ -1,7 +1,5 @@
 package Controllers;
 
-import DTO.ItemDTO;
-import Entities.Item;
 import Entities.Order;
 
 import java.util.ArrayList;
@@ -13,9 +11,9 @@ public class OrderController {
 
     private Scanner scanner = new Scanner(System.in);
     private MenuController menuController;
-    private List<Item> items;
-    ItemDTO iri;
-    private List<Item> itemsToAdd;
+    private List<Entities.Item> items;
+
+    private List<Entities.Item> itemsToAdd;
     //UI ui = new UI();
 
 
@@ -94,7 +92,7 @@ public class OrderController {
             }
 
         } else {
-            for (Item menuItem : items) {
+            for (Entities.Item menuItem : items) {
                 if (menuItem.getMenuItemID() == input) {
                     itemsToAdd.add(menuItem);
                 }
@@ -104,7 +102,7 @@ public class OrderController {
     }
 
 
-    private void addToOrder(List<Item> itemsToAdd, int tableNumber) {
+    private void addToOrder(List<Entities.Item> itemsToAdd, int tableNumber) {
         Order order = new Order(tableNumber, itemsToAdd);
 
         addOrderToDatabase(order);
@@ -112,8 +110,8 @@ public class OrderController {
     }
 
     private void addOrderToDatabase(Order order) {
-        DbController dbc = new DbController();
-        dbc.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
+        //DbController dbc = new DbController(new ItemRepository());
+        //dbc.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
     }
 
 
