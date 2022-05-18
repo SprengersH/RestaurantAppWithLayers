@@ -10,22 +10,18 @@ public class MenuController {
 
 
     private ItemRepository itemRepository;
-    private List<Item> items = new ArrayList<>();
+    private ArrayList<Item> items;
     private Scanner scanner = new Scanner(System.in);
     private int currentMenu;
 
 
-    public MenuController(ArrayList<ItemRepository> data) {
+    public MenuController(ArrayList<Item> items) {
 
         this.currentMenu = 1; // default menu is menu 1.
 
-
-        data = new ArrayList<>();
+        this.items = items;
     }
 
-    public MenuController() {
-
-    }
 
     //public void loadMenu(int menuNumber) {
     // this might cycle through all the menuItems and put them into different Lists of menu's.
@@ -35,7 +31,6 @@ public class MenuController {
 
     public void menuOptions() {
         // todo printstatements done by ui plz
-        // ui.showMenuPage();
         int input = scanner.nextInt();
         switch (input) {
             case (1) -> {

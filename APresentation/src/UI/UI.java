@@ -45,14 +45,15 @@ public class UI {
         System.out.println(SPACING);
         System.out.println("*    DRINKS PAGE                             *");
         System.out.println(SPACING);
-        System.out.println("*    Select your option or 0 to cancel order:*");
+        System.out.println("*    Select your option and hit enter or     *");
+        System.out.println("*    0 to end ordering and back to main      *");
     }
 
     public void showMainCourses() {
         System.out.println(SPACING);
         System.out.println("*    Main Courses                             *");
         System.out.println(SPACING);
-        System.out.println("*    Select your option or 0 to cancel order:*");
+        System.out.println("*    Select your option or 0 to cancel order: *");
     }
 
     public void showSideDishes() {

@@ -42,7 +42,6 @@ public class OrderController {
         System.out.println("Select table number:");
         int tableNumber = scanner.nextInt();
         // todo validation that selected table is available.
-        // myRestaurant.setUnavailable(tableNumber);
         courseSelector();
         itemSelector(tableNumber);
     }
