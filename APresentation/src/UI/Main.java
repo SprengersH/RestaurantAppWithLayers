@@ -24,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<ItemDTO> itemList = new ItemDAL().getItems(); // cant put this in domain bc of dependency...
-        dbController.test(itemList); // now i have a list of ItemDTO's in the domain layer.
+        dbController.test(itemList); // now i have a list of ItemDTO's in the domain layer. Should this controller be in the presentation layer??
         run();
     }
 
