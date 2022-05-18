@@ -1,4 +1,6 @@
-package Logic;
+package Entities;
+
+import Entities.Item;
 
 import java.util.List;
 import java.util.UUID;

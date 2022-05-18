@@ -1,7 +1,12 @@
 package UI;
 
+import Controllers.BillController;
+import Controllers.DbController;
+import Controllers.MenuController;
+import Controllers.OrderController;
+import DTO.ItemDTO;
 import Database.ItemDAL;
-import Logic.*;
+import Entities.Restaurant;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,7 +24,7 @@ public class Main {
 
     public static void main(String[] args) {
         ArrayList<ItemDTO> itemList = new ItemDAL().getItems(); // cant put this in domain bc of dependency...
-
+        dbController.test(itemList); // now i have a list of ItemDTO's in the domain layer.
         run();
     }
 

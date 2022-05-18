@@ -1,5 +1,6 @@
-package Logic;
-import Logic.Interfaces.ItemRepository;
+package Controllers;
+import Entities.Item;
+import Interfaces.ItemRepository;
 
 import java.util.ArrayList;
 import java.util.List;

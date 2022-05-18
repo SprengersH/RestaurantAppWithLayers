@@ -1,4 +1,6 @@
-package Logic;
+package Entities;
+
+import Entities.Item;
 
 import java.util.ArrayList;
 import java.util.List;

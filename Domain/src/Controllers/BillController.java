@@ -1,5 +1,8 @@
-package Logic;
+package Controllers;
 
+
+import Entities.Bill;
+import Entities.Item;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,7 +28,7 @@ public class BillController {
         String input = scanner.nextLine().toUpperCase();
 
         if (input.equalsIgnoreCase("Y")) {
-            dbController.setAvailable(tableNumber);
+            //dbController.setAvailable(tableNumber);
             //Table table = new Table(tableNumber);
             // todo table.setAvailable(tableNumber);
             // todo this is where discounts should happen.
@@ -45,7 +48,7 @@ public class BillController {
     }
 
     private List<Item> getItemListFromOrderID(String orderID) {
-       return dbController.retrieveItemList(orderID);
+       return null; //dbController.retrieveItemList(orderID);
     }
 
     public Integer getInput() {
@@ -54,7 +57,7 @@ public class BillController {
     }
 
     public String retrieveOrderID(int tableNumber) {
-        return dbController.retrieveOrderID(tableNumber);
+        return null; //dbController.retrieveOrderID(tableNumber);
     }
 
 

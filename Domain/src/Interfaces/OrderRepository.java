@@ -1,7 +1,6 @@
-package Logic.Interfaces;
+package Interfaces;
 
-import Logic.Item;
-import Logic.Order;
+import Entities.Item;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,13 +1,12 @@
 package Database;
 
-import Logic.Interfaces.ItemRepository;
-import Logic.Item;
-import Logic.ItemDTO;
+import Interfaces.ItemRepository;
+import DTO.ItemDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAL extends Database implements ItemRepository {
+public class ItemDAL extends DatabasePath implements ItemRepository {
 
 
     public ArrayList<ItemDTO> getItems() {

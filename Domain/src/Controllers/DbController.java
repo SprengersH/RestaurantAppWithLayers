@@ -1,4 +1,9 @@
-package Logic;
+package Controllers;
+
+import DTO.ItemDTO;
+import DTO.OrderDTO;
+import Entities.Item;
+import Entities.Order;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,21 +15,23 @@ public class DbController {
     Order dbo;
     ItemDTO itemDTO;
     OrderDTO orderDTO;
-
+    ArrayList<ItemDTO> itemList;
 
 
     public DbController() {
 
     }
 
-    public void test() {
+    public void test(ArrayList<ItemDTO> itemList) {
 
-        //dbm.selectAllMenuItems();
-        iri.getItems();
+        for (ItemDTO item : itemList) {
+            System.out.println(item);
+
+        }
     }
 
     public void showAllMenuItems() {
-        iri.getItems();
+
     }
 
     public void showMenu(int menuNumber) {
@@ -32,16 +39,16 @@ public class DbController {
     }
 
     public ArrayList<Item> loadMenuItems() {
-        return iri.getItems();
+        return null;
     }
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
-        ori.insertOrder(orderID, price, tableNumber, activeOrNot);
+        //ori.insertOrder(orderID, price, tableNumber, activeOrNot);
         //ori.insertOrderToProduct(dbo, dbo.getOrderedItems());
         //Main.run();
     }
 
-    public String retrieveOrderID(int tableNumber) {
+    /* public String retrieveOrderID(int tableNumber) {
         String id = null;
         try {
             id = ori.getOrderidFromTablenumber(tableNumber);
@@ -59,5 +66,5 @@ public class DbController {
         ori.setAvailable(tableNumber);
         // todo no sout's outside of ui, this should return one or more lists to the ui and the ui should print the statements.
         System.out.println("Table " + tableNumber + " is set available");
-    }
+    }*/
 }

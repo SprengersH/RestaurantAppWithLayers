@@ -1,14 +1,14 @@
 package Database;
 
-import Logic.Interfaces.ItemRepository;
-import Logic.Interfaces.OrderRepository;
-import Logic.Item;
+import Interfaces.ItemRepository;
+import Interfaces.OrderRepository;
+import Entities.Item;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAL extends Database implements OrderRepository {
+public class OrderDAL extends DatabasePath implements OrderRepository {
 
 
     // this should be FED the data instead of pushing it, and just return the data required.

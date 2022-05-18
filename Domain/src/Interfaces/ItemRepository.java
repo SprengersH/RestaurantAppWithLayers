@@ -1,7 +1,6 @@
-package Logic.Interfaces;
+package Interfaces;
 
-import Logic.Item;
-import Logic.ItemDTO;
+import DTO.ItemDTO;
 
 import java.util.ArrayList;
 

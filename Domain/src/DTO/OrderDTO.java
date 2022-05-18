@@ -1,9 +1,7 @@
-package Logic;
+package DTO;
 
-import Logic.Interfaces.ItemRepository;
-import Logic.Interfaces.OrderRepository;
+import Entities.Item;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
