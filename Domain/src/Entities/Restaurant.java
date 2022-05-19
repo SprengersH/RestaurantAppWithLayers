@@ -27,7 +27,7 @@ public class Restaurant {
         }
     }
 
-    public void printAvailableTables() {
+    public void printAvailableTables() { // not really needed bc status gets printed in the toString of table
         for (Table table : tableList) {
             if (table.isAvailable()) {
                 System.out.println(table);

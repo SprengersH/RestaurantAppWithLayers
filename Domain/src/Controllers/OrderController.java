@@ -2,30 +2,62 @@ package Controllers;
 
 import Entities.Item;
 import Entities.Order;
+import Interfaces.ItemRepository;
+import Interfaces.OrderRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
 
-    private ArrayList<Order> orders;
-    private DbController dbc;
+    private OrderRepository orderRepo;
+    private ItemRepository itemRepo;
+    List<Order> orders;
+    List<Item> items;
 
-
-    public OrderController(DbController dbc, ArrayList<Order> orders) {
-        this.orders = orders;
-        this.dbc = dbc;
+    public OrderController(ItemRepository itemRepo, OrderRepository orderRepo) {
+        this.orderRepo = orderRepo;
+        this.itemRepo = itemRepo;
     }
 
-    public void addToOrder(List<Item> itemsToAdd, int tableNumber) {
+    public List<Order> getOrders() {
+        orders = orderRepo.getOrders();
+        return orders;
+    }
+
+    public void addItemsToOrder(List<Item> itemsToAdd, int tableNumber) {
         Order order = new Order(tableNumber, itemsToAdd);
         addOrderToDatabase(order);
+        linkOrderToProduct(order, itemsToAdd);
         itemsToAdd.clear();
     }
 
-    public void addOrderToDatabase(Order order) {
-       dbc.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
+    public void linkOrderToProduct(Order order, List<Item> orderedMenuMenuItems){
+        orderRepo.insertOrderToProduct(order, orderedMenuMenuItems);
     }
+
+
+    public void addOrderToDatabase(Order order) {
+       orderRepo.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
+    }
+
+    public String retrieveOrderID(int tableNumber) {
+        String id;
+        id = orderRepo.getOrderidFromTablenumber(tableNumber);
+        return id;
+    }
+
+    public List<Item> retrieveItemList(String orderID) {
+        return orderRepo.retrieveItemsFromOrder(orderID);
+    }
+
+    public void setAvailable(int tableNumber) {
+        orderRepo.setAvailable(tableNumber);
+        // todo no sout's outside of ui, this should return one or more lists to the ui and the ui should print the statements.
+        System.out.println("Table " + tableNumber + " is set available");
+    }
+
+
 
 
 }

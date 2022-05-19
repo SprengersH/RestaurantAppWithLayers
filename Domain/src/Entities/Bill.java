@@ -11,16 +11,32 @@ public class Bill {
     private String orderID;
     private double totalBillPrice;
     private List<Item> menuItemToBill;
-	private Collection<Item> itemToBill;
 
 
     public Bill(int tableNumber, String orderID, List<Item> menuItemToBill) {
+
         this.tableNumber = tableNumber;
         this.orderID = orderID;
         for (Item menuItem : menuItemToBill) {
             this.totalBillPrice += menuItem.getPrice();
         }
         this.menuItemToBill = menuItemToBill;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public double getTotalBillPrice() {
+        return totalBillPrice;
+    }
+
+    public List<Item> getMenuItemToBill() {
+        return menuItemToBill;
     }
 
     @Override

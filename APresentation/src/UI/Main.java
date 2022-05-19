@@ -1,12 +1,13 @@
 package UI;
 
-import Controllers.DbController;
+import Controllers.BillController;
 import Controllers.MenuController;
 import Controllers.OrderController;
+import Database.BillDAL;
 import Database.ItemDAL;
 import Database.OrderDAL;
+import Entities.Bill;
 import Entities.Item;
-import Entities.Order;
 import Entities.Restaurant;
 
 import java.util.ArrayList;
@@ -15,13 +16,12 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static Restaurant myRestaurant = new Restaurant(10);
-    private static Scanner scanner = new Scanner(System.in);
-    private static UI ui = new UI();
-    private static DbController dbc = new DbController(new ItemDAL(), new OrderDAL());
-    private static MenuController menuController = new MenuController(dbc.getAllItems());
-    private static OrderController orderController = new OrderController(dbc, dbc.getOrders());
-    // static BillController billController = new BillController(dbController);
+    private static final Restaurant myRestaurant = new Restaurant(10);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final UI ui = new UI();
+    private static final MenuController menuController = new MenuController(new ItemDAL());
+    private static final OrderController orderController = new OrderController(new ItemDAL(), new OrderDAL());
+    private static final BillController billController = new BillController(new ItemDAL(), new OrderDAL(), new BillDAL());
 
 
     public static void main(String[] args) {
@@ -40,33 +40,20 @@ public class Main {
         switch (input) {
             case (1) -> {
                 // this should show available tables, the option to select the current table for a customer and show the current menu and allow ordering of menuItems.
-                System.out.println("selected order");
-                System.out.println("Select table number:");
-                int tableNumber = scanner.nextInt();
-                CourseSelector();
-                List<Item> toAdd;
-                toAdd = itemSelector(tableNumber);
-                orderController.addToOrder(toAdd, tableNumber);
-                myRestaurant.setUnavailable(tableNumber);
-                run();
+                System.out.println("*   Selected Order                *");
+                orderMode();
             }
             case (2) -> {
-                // this should show the available menu's and allow you to change menu's.
-                System.out.println("selected menu");
-                ui.showMenuPage();
-                menuOptions();
+                System.out.println("*   Selected Menu                 *");
+                menuMode();
             }
             case (3) -> {
-                // this should display all tables including their availability.
                 System.out.println("*   Displaying Table Status:                 *");
-                myRestaurant.printAllTables();
-                run();
+                tableMode();
             }
             case (4) -> {
-                System.out.println("selected checkout");
-                System.out.println("Enter tablenumber to checkout:.....");
-                //billController.billMode();
-
+                System.out.println("*   Selected Checkout                 *");
+                billingMode();
             }
             // TODO this should ask for a time period and show you the sales in that period.
             case (5) -> {
@@ -79,32 +66,42 @@ public class Main {
         }
     }
 
-    public static void menuOptions() {
-        // todo printstatements done by ui plz
+
+
+    private static void orderMode() {
+        System.out.println("Select table number:");
+        int tableNumber = scanner.nextInt();
+        CourseSelector();
+        List<Item> toAdd;
+        toAdd = itemSelector();
+        orderController.addItemsToOrder(toAdd, tableNumber);
+        myRestaurant.setUnavailable(tableNumber);
+        run();
+    }
+
+    public static void menuMode() {
+        ui.showMenuPage();
         int input = scanner.nextInt();
         switch (input) {
             case (1) -> {
-                // TODO this should show the contents of the current menu with courses etc.
+                // TODO this should show the contents of the current menu with courses etc for design, maybe when i've got extra time and everything works
                 System.out.println("selected 1");
                 System.out.println("this doesn't do anything yet");
-                menuOptions();
+                menuMode();
             }
             case (2) -> {
-                // this now shows the current selected menu. 1 by default.
                 System.out.println("Displaying current menu:");
-                Printer.print(menuController.printMenu()); // hey this works.
-                menuOptions();
+                Printer.print(menuController.printCurrentMenu());
+                menuMode();
             }
             case (3) -> {
-                // this allows you to change between menu's.
                 System.out.println("Changing menu's");
-                System.out.println("Select new menu:");
-                //this.currentMenu = scanner.nextInt();
-                menuOptions();
+                changeMenu();
+                menuMode();
             }
             case (4) -> {
                 System.out.println("Going back to the main page:");
-                //Main.run();
+                run();
             }
 
             default -> System.out.println("Please choose a valid option.");
@@ -112,13 +109,15 @@ public class Main {
 
     }
 
+
+
     private static void CourseSelector() {
         ui.showCourses();
         int course = scanner.nextInt();
         switch (course) {
             case (1) -> {
                 ui.showDrinksPage();
-                ArrayList<Item> drinks = menuController.printCourse("DRINKS");
+                List<Item> drinks = menuController.printCourse("DRINKS");
                 Printer.print(drinks);
             }
             case (2) -> {
@@ -140,44 +139,78 @@ public class Main {
         }
     }
 
-    private static List<Item> itemSelector(int tableNumber) {
+    private static List<Item> itemSelector() {
 
-        List<Item> itemsToAdd = new ArrayList<>();
+        List<Item> selectedItems = new ArrayList<>();
         boolean keepGoing = true;
-        while (keepGoing) {
+        while (keepGoing) { // keep asking input
             System.out.println("Select item:");
 
-            int input = scanner.nextInt();
-            if (input < 1) {
+            int chosenItem = scanner.nextInt();
+            if (chosenItem < 1) { // when 0 is entered check if the list has at least 1 item to add to the order.
 
-                if (itemsToAdd.size() < 1) {
+                if (selectedItems.size() < 1) { // keep going if list is <1
                     System.out.println("No items selected, please enter at least 1 item.");
                 } else {
-                    keepGoing = false;
+                    keepGoing = false; // if list is >= 0 when "0" is entered, stop keepGoing.
                 }
-            } else {
-                boolean containsID = dbc.getAllItems().stream().anyMatch(item -> input == (item.getMenuItemID()));
-                // using a stream to see if the input exists in the menu but it uses the list from the DB. Should use list from in-memory repository?
-                if (!containsID) {
+            } else { // if input is >=1 search all items and check that item exists.
+                boolean containsID = menuController.getAllItems().stream().anyMatch(item -> chosenItem == (item.getMenuItemID()));
+                // this now uses a list from in-memory repository instead of database
+                if (!containsID) { // if it doesn't exist, start over, if it does add it the list.
                     System.out.println("No such item in the menu, please try again");
-                    itemSelector(tableNumber);
+                    itemSelector();
                 }
-                for (Item menuItem : dbc.getAllItems()) { // should this logic happen in the domainlayer?
-                    if (menuItem.getMenuItemID() == input) {
-                        itemsToAdd.add(menuItem);
+                for (Item menuItem : menuController.getAllItems()) { // this too now uses the in memory item list instead of querying the db.
+                    if (menuItem.getMenuItemID() == chosenItem) {
+                        selectedItems.add(menuItem);
                     }
                 }
             }
         }
-        return itemsToAdd;
+        return selectedItems;
     }
 
-    private static void addOrderToDatabase(Order order) {
-        dbc.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
+    private static void billingMode() {
+        System.out.println("Enter table number to checkout:.....");
+        int tableToCheckout = scanner.nextInt();
+        Bill bill = billController.billing(tableToCheckout);
+        System.out.println("Checking out: \n" + bill + "\n Type 'Y' to clear table and return to main menu \n 'N' returns to main menu without checking out");
+        scanner.nextLine();
+        String input = scanner.nextLine().toUpperCase();
+        if (input.equalsIgnoreCase("Y")) {
+            // todo this is where discounts should happen.
+
+            billController.setAvailable(tableToCheckout); // in db
+            setTableAvailable(tableToCheckout);           // in memory
+            // bill could be sent to the database here...
+            billController.insertBill(bill);
+            run();
+        } else if (input.equalsIgnoreCase("N")) {
+            run();
+        } else {
+            System.out.println("Give decent input you animal");
+        }
+    }
+    public String retrieveOrderID(int tableNumber) {
+        return orderController.retrieveOrderID(tableNumber);
     }
 
-    public static void setTable(int tableNumber) {
+    private static void tableMode() {
+        myRestaurant.printAllTables();
+        run();
+    }
+
+    public static void setTableAvailable(int tableNumber) {
         myRestaurant.setAvailable(tableNumber);
+    }
+
+    private static void changeMenu() {
+        int input;
+        System.out.println("Select new menu:");
+        input = scanner.nextInt();
+        menuController.setCurrentMenu(input);
+        System.out.println("Changed to menu " + input);
     }
 
 }

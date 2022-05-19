@@ -40,7 +40,6 @@ public class UI {
         System.out.println("*    4. Go back to the main page             *");
         System.out.println(SPACING);
         System.out.println("*    Select your option:                     *");
-
     }
     public void showDrinksPage() {
         System.out.println(SPACING);

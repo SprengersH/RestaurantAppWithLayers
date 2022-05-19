@@ -12,7 +12,7 @@ public interface OrderRepository {
 
     void insertOrder(String orderID, double price, int tableNumber, int activeOrNot);
 
-    void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems);
+    void insertOrderToProduct(Order order, List<Item> orderedMenuMenuItems);
 
     String getOrderidFromTablenumber(int tableNumber);
 

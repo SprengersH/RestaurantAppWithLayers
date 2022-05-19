@@ -19,7 +19,7 @@ public class DbController {
     }
 
     public ArrayList<Item> getAllItems() {
-        ArrayList<Item> items = itemRepo.getItems();
+        ArrayList<Item> items = itemRepo.getAllItems();
         return items;
     }
 

@@ -26,7 +26,7 @@ public class ItemDAL implements ItemRepository {
         System.out.println("Connection valid: " + connection.isValid(5));
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<Item> getAllItems() {
         System.out.println("Reading data...");
         try {
             openDatabaseConnection();

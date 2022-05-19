@@ -3,62 +3,68 @@ package Controllers;
 
 import Entities.Bill;
 import Entities.Item;
+import Entities.Order;
+import Interfaces.BillRepository;
+import Interfaces.ItemRepository;
+import Interfaces.OrderRepository;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class BillController {
 
+    private OrderRepository orderRepo;
+    private ItemRepository itemRepo;
+    private BillRepository billRepo;
+    private List<Order> orders;
+    private List<Item> items;
     private Scanner scanner = new Scanner(System.in);
-    private DbController dbController;
 
-    public BillController(DbController dbController) {
-        this.dbController = dbController;
+    public BillController(ItemRepository itemRepo, OrderRepository orderRepo, BillRepository billRepo) {
+        this.orderRepo = orderRepo;
+        this.itemRepo = itemRepo;
+        this.billRepo = billRepo;
     }
 
-    public void billMode() {
-        int tableNumber = getInput();
-        String orderID = retrieveOrderID(tableNumber);
+    public List<Item> getAllItems() {
+        items = itemRepo.getAllItems();
+        return items;
+    }
+    public List<Order> getOrders() {
+        orders = orderRepo.getOrders();
+        return orders;
+    }
 
+
+    public Bill billing(int tableToCheckout) {
+        String orderID = retrieveOrderID(tableToCheckout);
         List<Item> menuItemsToBill = getItemListFromOrderID(orderID);
-        billCreator(tableNumber, orderID, menuItemsToBill);
-        System.out.println("Checkout 'Y' to clear table and return to main menu \n 'N' returns to main menu without checking out");
-
-        scanner.nextLine();
-        String input = scanner.nextLine().toUpperCase();
-
-        if (input.equalsIgnoreCase("Y")) {
-            //dbController.setAvailable(tableNumber);
-            //Table table = new Table(tableNumber);
-            // todo table.setAvailable(tableNumber);
-            // todo this is where discounts should happen.
-            // bill could be sent to the database here...
-            //Main.setTable(tableNumber);
-            //Main.run();
-        } else if (input.equalsIgnoreCase("N")) {
-           // Main.run();
-        } else {
-            System.out.println("Give decent input you animal");
-        }
+        return billCreator(tableToCheckout, orderID, menuItemsToBill);
     }
 
-    private void billCreator(int tableNumber, String orderID, List<Item> menuItemsToBill) {
+    private Bill billCreator(int tableNumber, String orderID, List<Item> menuItemsToBill) {
         Bill bill = new Bill(tableNumber, orderID, menuItemsToBill);
-        System.out.println(bill);
+        return bill;
     }
 
-    private List<Item> getItemListFromOrderID(String orderID) {
-       return null; //dbController.retrieveItemList(orderID);
-    }
-
-    public Integer getInput() {
-        int input = scanner.nextInt();
-        return input;
+    public List<Item> getItemListFromOrderID(String orderID) {
+       return orderRepo.retrieveItemsFromOrder(orderID);
     }
 
     public String retrieveOrderID(int tableNumber) {
-        return null; //dbController.retrieveOrderID(tableNumber);
+        String id;
+        id = orderRepo.getOrderidFromTablenumber(tableNumber);
+        return id;
+    }
+
+    public void setAvailable(int tableNumber) {
+        orderRepo.setAvailable(tableNumber);
+        // todo no sout's outside of ui, this should return one or more lists to the ui and the ui should print the statements.
+        System.out.println("Table " + tableNumber + " is set available");
     }
 
 
+    public void insertBill(Bill bill) {
+        billRepo.insertBill(bill);
+    }
 }

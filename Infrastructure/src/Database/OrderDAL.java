@@ -11,9 +11,6 @@ import java.util.List;
 
 public class OrderDAL extends DatabasePath implements OrderRepository {
 
-
-    // this should be FED the data instead of pushing it, and just return the data required.
-
     Connection connection;
 
     private void openDatabaseConnection() throws SQLException {
@@ -24,6 +21,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
                 "Oefenacc");
         System.out.println("Connection valid: " + connection.isValid(5));
     }
+
     private void closeDatabaseConnection() throws SQLException {
         System.out.println("Closing the database connection...");
         connection.close();
@@ -56,7 +54,6 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
     }
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
-
         System.out.println("Creating data...");
         try {
             openDatabaseConnection();
@@ -74,55 +71,34 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
-        /*String query = "INSERT INTO `orders` (orderid, orderprice, tablenumber, active) VALUES (?,?,?,?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             // Generate a prepared statement with the placeholder parameter.
-             PreparedStatement stmt = conn.prepareStatement(query);) {
-            // Bind value into the statement at parameter index 1,2,3.
-            stmt.setString(1, orderID);
-            stmt.setDouble(2, price);
-            stmt.setInt(3, tableNumber);
-            stmt.setInt(4, activeOrNot);
-            // Execute a query
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    @Override
-    public void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems) {
-
     }
 
 
-   /* public void insertOrderToProduct(Order order, List<ItemInterfacer> orderedMenuMenuItems) {
-        String query = "INSERT INTO `order-product` (orderid, productid, tablenumber, active) VALUES (?,?,?,?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             // Generate a prepared statement with the placeholder parameter.
-             PreparedStatement stmt = conn.prepareStatement(query);
-        ) {
-            // Bind value into the statement at parameter index 1,2,3,4.
-            for (ItemInterfacer menuItem : order.getOrderedItems()) {
-                stmt.setString(1, order.getOrderID());
-                stmt.setInt(2, menuItem.getMenuItemID());
-                stmt.setInt(3, order.getTableNumber());
-                stmt.setInt(4, order.getActive());
-                // Execute a query
-
-                stmt.executeUpdate();
-            }
-
+    public void insertOrderToProduct(Order orderToLink, List<Item> itemsToLink) {
+        System.out.println("Creating data...");
+        try {
+            openDatabaseConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }*/
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO `order-product` (orderid, productid, tablenumber, active) VALUES (?,?,?,?)")) {
+            for (Item Item : orderToLink.getOrderedItems()) {
+                statement.setString(1, orderToLink.getOrderID());
+                statement.setInt(2, Item.getMenuItemID());
+                statement.setInt(3, orderToLink.getTableNumber());
+                statement.setInt(4, orderToLink.getActive());
 
+                int rowsInserted = statement.executeUpdate();
+                System.out.println("Rows inserted: " + rowsInserted);
+            }
+            closeDatabaseConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+// todo better data queries below this line needed
     public String getOrderidFromTablenumber(int tableNumber) {
         Connection conn = null;
         try {

@@ -1,21 +1,31 @@
 package Controllers;
 
 import Entities.Item;
+import Interfaces.ItemRepository;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 public class MenuController {
 
+    private ItemRepository itemRepo;
 
-    private ArrayList<Item> items;
-    private Scanner scanner = new Scanner(System.in);
+    private List<Item> items;
     private int currentMenu;
 
 
-    public MenuController(ArrayList<Item> items) {
+    public MenuController(ItemRepository itemRepo) {
         this.currentMenu = 1; // default menu is menu 1.
-        this.items = items;
+        this.itemRepo = itemRepo;
+    }
+
+    public void setCurrentMenu(int currentMenu) {
+        this.currentMenu = currentMenu;
+    }
+
+    public List<Item> getAllItems() {
+        items = itemRepo.getAllItems();
+        return items;
     }
 
 //    public void loadMenu(int menuNumber) {
@@ -25,7 +35,7 @@ public class MenuController {
 //    }
 
 
-    public ArrayList<Item> printMenu() {
+    public ArrayList<Item> printCurrentMenu() {
         ArrayList<Item> toPrint = new ArrayList<>();
         for (Item Item : items) {
             if (Item.getMenuNumber() == this.currentMenu) {
@@ -34,6 +44,8 @@ public class MenuController {
         }
         return toPrint;
     }
+
+
 
     public ArrayList<Item> printCourse(String course) {
         ArrayList<Item> toPrint = new ArrayList<>();
