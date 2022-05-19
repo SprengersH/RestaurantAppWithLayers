@@ -50,11 +50,7 @@ public class DbController {
 
     public String retrieveOrderID(int tableNumber) {
         String id = null;
-        try {
-            id = orderRepo.getOrderidFromTablenumber(tableNumber);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        id = orderRepo.getOrderidFromTablenumber(tableNumber);
         return id;
     }
 

@@ -13,13 +13,47 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
 
     // this should be FED the data instead of pushing it, and just return the data required.
 
+    Connection connection;
+
+    private void openDatabaseConnection() throws SQLException {
+        System.out.println("Connecting to the database...");
+        connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/bppdatabase",
+                "Oefenacc",
+                "Oefenacc");
+        System.out.println("Connection valid: " + connection.isValid(5));
+    }
+    private void closeDatabaseConnection() throws SQLException {
+        System.out.println("Closing the database connection...");
+        connection.close();
+        System.out.println("Connection valid: " + connection.isValid(5));
+    }
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
-        String query = "INSERT INTO `orders` (orderid, orderprice, tablenumber, active) VALUES (?,?,?,?)";
+
+        System.out.println("Creating data...");
+        try {
+            openDatabaseConnection();
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO `orders` (orderid, orderprice, tablenumber, active)VALUES(?,?,?,?)")) {
+                statement.setString(1, orderID);
+                statement.setDouble(2, price);
+                statement.setInt(3, tableNumber);
+                statement.setInt(4, activeOrNot);
+
+                int rowsInserted = statement.executeUpdate();
+                System.out.println("Rows inserted: " + rowsInserted);
+            }
+            closeDatabaseConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        /*String query = "INSERT INTO `orders` (orderid, orderprice, tablenumber, active) VALUES (?,?,?,?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
              // Generate a prepared statement with the placeholder parameter.
-             PreparedStatement stmt = conn.prepareStatement(query);
-        ) {
+             PreparedStatement stmt = conn.prepareStatement(query);) {
             // Bind value into the statement at parameter index 1,2,3.
             stmt.setString(1, orderID);
             stmt.setDouble(2, price);
@@ -31,7 +65,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -63,24 +97,29 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
     }*/
 
 
-    public String getOrderidFromTablenumber(int tableNumber) throws SQLException {
-        Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-        // Generate a prepared statement with the placeholder parameter.
-        String query = "SELECT orderid FROM `order-product` WHERE tablenumber = ? AND active = ?";
-        PreparedStatement stmt = conn.prepareStatement(query);
+    public String getOrderidFromTablenumber(int tableNumber) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            // Generate a prepared statement with the placeholder parameter.
+            String query = "SELECT orderid FROM `order-product` WHERE tablenumber = ? AND active = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
 
-        // Bind value into the statement at parameter index 1 etc.
+            // Bind value into the statement at parameter index 1 etc.
 
-        stmt.setInt(1, tableNumber);
-        stmt.setInt(2, 1);
-        ResultSet rs = stmt.executeQuery();
-        // don't forget to execute the PrepareStatement without parameters (stmt.executeQuery(query))
-        // or you will lose another 5 hours of your life.
-        String orderID = "";
-        while (rs.next()) {
-            orderID = rs.getString("orderid");
+            stmt.setInt(1, tableNumber);
+            stmt.setInt(2, 1);
+            ResultSet rs = stmt.executeQuery();
+            // don't forget to execute the PrepareStatement without parameters (stmt.executeQuery(query))
+            // or you will lose another 5 hours of your life.
+            String orderID = "";
+            while (rs.next()) {
+                orderID = rs.getString("orderid");
+            }
+            return orderID;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return orderID;
     }
 
 
@@ -91,9 +130,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         String query = "SELECT * FROM menuitem WHERE menuitemid = ?";
         List<Item> listToBill = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query);
-        ) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); PreparedStatement stmt = conn.prepareStatement(query);) {
             // Bind value into the statement at parameter index 1.
             for (int productID : productIDList) {
 
@@ -101,13 +138,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
-                    Item menuItem = new Item
-                            (rs.getInt("menuitemid"),
-                                    rs.getInt("menunumber"),
-                                    rs.getString("coursetype"),
-                                    rs.getString("name"),
-                                    rs.getString("description"),
-                                    rs.getDouble("price"));
+                    Item menuItem = new Item(rs.getInt("menuitemid"), rs.getInt("menunumber"), rs.getString("coursetype"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"));
                     listToBill.add(menuItem);
                 }
             }
@@ -122,9 +153,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         String query = "SELECT productid FROM `order-product` WHERE orderid = ?";
         List<Integer> productIDList = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query);
-        ) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); PreparedStatement stmt = conn.prepareStatement(query);) {
             // Bind value into the statement at parameter index 1.
             stmt.setString(1, orderID);
             ResultSet rs = stmt.executeQuery();
@@ -143,9 +172,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
 
     public void setAvailable(int tableNumber) {
         String query = "UPDATE orders SET active=0 WHERE tablenumber = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query);
-        ) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); PreparedStatement stmt = conn.prepareStatement(query);) {
             stmt.setInt(1, tableNumber);
             // dont forget to use the executeupdate command, or you will lose another 2 hours trying to fix a query where nothing is wrong..
             stmt.executeUpdate();
@@ -154,9 +181,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
             e.printStackTrace();
         }
         String query2 = "UPDATE `order-product` SET active=0 WHERE tablenumber = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query2);
-        ) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); PreparedStatement stmt = conn.prepareStatement(query2);) {
             stmt.setInt(1, tableNumber);
             stmt.executeUpdate();
 

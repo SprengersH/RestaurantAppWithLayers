@@ -6,18 +6,34 @@ import Interfaces.ItemRepository;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAL extends DatabasePath implements ItemRepository {
+public class ItemDAL implements ItemRepository {
 
+
+    private static Connection connection;
+
+    private void openDatabaseConnection() throws SQLException {
+        System.out.println("Connecting to the database...");
+        connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/bppdatabase",
+                "Oefenacc",
+                "Oefenacc");
+        System.out.println("Connection valid: " + connection.isValid(5));
+    }
+
+    private void closeDatabaseConnection() throws SQLException {
+        System.out.println("Closing the database connection...");
+        connection.close();
+        System.out.println("Connection valid: " + connection.isValid(5));
+    }
 
     public ArrayList<Item> getItems() {
-
-        String query = "SELECT * FROM menuitem";
-        ArrayList<Item> allMenuItemsList = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-
+        System.out.println("Reading data...");
+        try {
+            openDatabaseConnection();
+            ArrayList<Item> allMenuItemsList = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM menuitem");
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Item item = new Item
                         (rs.getInt("menuitemid"),
@@ -28,24 +44,22 @@ public class ItemDAL extends DatabasePath implements ItemRepository {
                                 rs.getDouble("price"));
                 allMenuItemsList.add(item);
             }
+            closeDatabaseConnection();
+            return allMenuItemsList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return allMenuItemsList;
     }
 
     public ArrayList<Item> selectMenu(int menunumber) {
-
-        String query = "SELECT * FROM menuitem WHERE menunumber = ?";
-        ArrayList<Item> itemList = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(query)
-        ) {
-            // Bind value into the statement at parameter index 1.
-            stmt.setInt(1, menunumber);
-            ResultSet rs = stmt.executeQuery();
-
+        System.out.println("Reading data...");
+        try {
+            openDatabaseConnection();
+            ArrayList<Item> itemsList = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM menuitem WHERE menunumber = ?");
+            statement.setInt(1, menunumber);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Item item = new Item
                         (rs.getInt("menuitemid"),
@@ -54,11 +68,12 @@ public class ItemDAL extends DatabasePath implements ItemRepository {
                                 rs.getString("name"),
                                 rs.getString("description"),
                                 rs.getDouble("price"));
-                itemList.add(item);
+                itemsList.add(item);
             }
+            closeDatabaseConnection();
+            return itemsList;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return itemList;
     }
 }

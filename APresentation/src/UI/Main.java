@@ -17,17 +17,16 @@ public class Main {
     private static Restaurant myRestaurant = new Restaurant(10);
     private static Scanner scanner = new Scanner(System.in);
     private static UI ui = new UI();
-    ;
 
     private static List<Item> itemsToAdd = new ArrayList<>();
 
     private static DbController dbc = new DbController(new ItemDAL(), new OrderDAL());
     private static MenuController menuController = new MenuController(dbc.getAllItems());
+
     // static BillController billController = new BillController(dbController);
 
 
     public static void main(String[] args) {
-
         run();
     }
 
@@ -151,5 +150,6 @@ public class Main {
     public static void setTable(int tableNumber) {
         myRestaurant.setAvailable(tableNumber);
     }
+
 }
 

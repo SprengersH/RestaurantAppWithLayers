@@ -2,6 +2,7 @@ package Interfaces;
 
 import Entities.Item;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ItemRepository {

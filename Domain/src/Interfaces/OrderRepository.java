@@ -11,7 +11,7 @@ public interface OrderRepository {
 
     public void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems);
 
-    String getOrderidFromTablenumber(int tableNumber) throws SQLException;
+    String getOrderidFromTablenumber(int tableNumber);
 
     List<Item> retrieveItemsFromOrder(String orderID);
 
