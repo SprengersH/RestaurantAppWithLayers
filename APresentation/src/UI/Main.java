@@ -118,7 +118,8 @@ public class Main {
         switch (course) {
             case (1) -> {
                 ui.showDrinksPage();
-                menuController.printCourse("DRINKS");
+                ArrayList<Item> drinks = menuController.printCourse("DRINKS");
+                Printer.print(drinks);
             }
             case (2) -> {
                 ui.showMainCourses();
