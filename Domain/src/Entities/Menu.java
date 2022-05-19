@@ -11,12 +11,11 @@ import java.util.*;
 public class Menu {
 
     private int menuNumber;
-    private List<Item> menuItemList;
-	private Collection<Item> itemList;
+    private ArrayList<Item> menuItemList;
 
-    public Menu(int menuNumber) {
+    public Menu(ArrayList<Item> menuItemList) {
 
-        this.menuNumber = menuNumber;
+        this.menuNumber = 1;
         this.menuItemList = new ArrayList<>();
     }
 }

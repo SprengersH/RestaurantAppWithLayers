@@ -16,6 +16,7 @@ public class UI {
         System.out.println(SPACING);
         System.out.println("*    Select your option:                     *");
 
+
     }
 
     public void showMenuPage() {
@@ -46,7 +47,8 @@ public class UI {
         System.out.println("*    DRINKS PAGE                             *");
         System.out.println(SPACING);
         System.out.println("*    Select your option and hit enter or     *");
-        System.out.println("*    0 to end ordering and back to main      *");
+        System.out.println("*    0 to end ordering and go back to main   *");
+        System.out.println(SPACING);
     }
 
     public void showMainCourses() {

@@ -1,5 +1,6 @@
 package Database;
 
+import Entities.Order;
 import Interfaces.ItemRepository;
 import Interfaces.OrderRepository;
 import Entities.Item;
@@ -27,6 +28,31 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         System.out.println("Closing the database connection...");
         connection.close();
         System.out.println("Connection valid: " + connection.isValid(5));
+    }
+
+    @Override
+    public ArrayList<Order> getOrders() {
+        System.out.println("Reading data...");
+        try {
+            openDatabaseConnection();
+            ArrayList<Order> allOrderList = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM orders");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Order order = new Order
+                        (rs.getString("orderid"),
+                                rs.getDouble("orderprice"),
+                                rs.getInt("tablenumber"),
+                                rs.getInt("active"));
+
+                allOrderList.add(order);
+            }
+            closeDatabaseConnection();
+            return allOrderList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {

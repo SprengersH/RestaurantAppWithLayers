@@ -1,15 +1,18 @@
 package Interfaces;
 
 import Entities.Item;
+import Entities.Order;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderRepository {
 
+    ArrayList<Order> getOrders();
+
     void insertOrder(String orderID, double price, int tableNumber, int activeOrNot);
 
-    public void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems);
+    void insertOrderToProduct(OrderRepository order, List<ItemRepository> orderedMenuMenuItems);
 
     String getOrderidFromTablenumber(int tableNumber);
 

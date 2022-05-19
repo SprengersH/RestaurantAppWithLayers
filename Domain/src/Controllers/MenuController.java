@@ -1,24 +1,18 @@
 package Controllers;
 import Entities.Item;
-import Interfaces.ItemRepository;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class MenuController {
 
 
-    private ItemRepository itemRepository;
     private ArrayList<Item> items;
     private Scanner scanner = new Scanner(System.in);
     private int currentMenu;
 
 
     public MenuController(ArrayList<Item> items) {
-
         this.currentMenu = 1; // default menu is menu 1.
-
         this.items = items;
     }
 
@@ -29,47 +23,17 @@ public class MenuController {
     //Menu menu = new Menu(1);
     //}
 
-    public void menuOptions() {
-        // todo printstatements done by ui plz
-        int input = scanner.nextInt();
-        switch (input) {
-            case (1) -> {
-                // TODO this should show the contents of the current menu with courses etc.
-                System.out.println("selected 1");
-                System.out.println("this doesn't do anything yet");
-                menuOptions();
-            }
-            case (2) -> {
-                // this now shows the current selected menu. 1 by default.
-                System.out.println("Displaying current menu:");
-                printMenu();
-                menuOptions();
-            }
-            case (3) -> {
-                // this allows you to change between menu's.
-                System.out.println("Changing menu's");
-                System.out.println("Select new menu:");
-                this.currentMenu = scanner.nextInt();
-                menuOptions();
-            }
-            case (4) -> {
-                System.out.println("Going back to the main page:");
-                //Main.run();
-            }
 
-            default -> System.out.println("Please choose a valid option.");
-        }
 
-    }
-
-    public void printMenu() {
+    public ArrayList<Item> printMenu() {
         // todo Single responsibility, should this be done by the ui???
+        ArrayList<Item> toAdd = new ArrayList<>();
         for (Item menuItem : items) {
             if (menuItem.getMenuNumber() == this.currentMenu) {
-                System.out.println(menuItem);
+                toAdd.add(menuItem);
             }
-        }
-    }
+        } return toAdd;
+            }
 
     public void printCourse(String course) {
 // todo Single responsibility, should this be done by the ui???

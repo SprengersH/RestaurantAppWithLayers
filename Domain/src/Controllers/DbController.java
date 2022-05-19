@@ -1,17 +1,17 @@
 package Controllers;
 
 import Entities.Item;
+import Entities.Order;
 import Interfaces.ItemRepository;
 import Interfaces.OrderRepository;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbController {
 
-    private OrderRepository orderRepo; // a list of all orders, coming from DAL or Mock.
-    private ItemRepository itemRepo; // a list of all items, coming from DAL or Mock.
+    private OrderRepository orderRepo; // a list of all orders, coming to or from DAL or Mock.
+    private ItemRepository itemRepo; // a list of all items, coming to or from DAL or Mock.
 
     public DbController(ItemRepository itemRepo, OrderRepository orderRepo) {
         this.itemRepo = itemRepo;
@@ -23,6 +23,10 @@ public class DbController {
         return items;
     }
 
+    public ArrayList<Order> getOrders() {
+        ArrayList<Order> orders = orderRepo.getOrders();
+        return orders;
+    }
     public void test(ArrayList<Item> itemList) {
 
         for (Item item : itemList) {
@@ -44,8 +48,6 @@ public class DbController {
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
         orderRepo.insertOrder(orderID, price, tableNumber, activeOrNot);
-        //orderRepo.insertOrderToProduct(dbo, dbo.getOrderedItems());
-
     }
 
     public String retrieveOrderID(int tableNumber) {
@@ -63,4 +65,5 @@ public class DbController {
         // todo no sout's outside of ui, this should return one or more lists to the ui and the ui should print the statements.
         System.out.println("Table " + tableNumber + " is set available");
     }
+
 }

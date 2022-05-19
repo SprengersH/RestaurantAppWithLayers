@@ -11,7 +11,6 @@ public class Order {
     private List<Item> items;
     private double totalPrice;
     private int tableNumber;
-
     private int active;
     // sql wouldn't let me use boolean and didn't want to use tinyint.
     // 1 for active 0 for inactive
@@ -19,7 +18,6 @@ public class Order {
     public Order(int tableNumber, List<Item> items) {
         this.orderID = UUID.randomUUID().toString();
         this.items = items;
-
         for (Item item : items) {
             this.totalPrice += item.getPrice();
         }
@@ -27,9 +25,8 @@ public class Order {
         this.active = 1;
     }
 
-    public Order(String orderID, List<Item> orderedItems, double totalPrice, int tableNumber, int active) {
+    public Order(String orderID, double totalPrice, int tableNumber, int active) {
         this.orderID = orderID;
-        this.items = orderedItems;
         this.totalPrice = totalPrice;
         this.tableNumber = tableNumber;
         this.active = active;
