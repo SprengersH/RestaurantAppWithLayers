@@ -37,7 +37,6 @@ public class BillDAL implements BillRepository {
                 statement.setString(1, bill.getOrderID());
                 statement.setDouble(2, bill.getTotalBillPrice());
                 statement.setInt(3, bill.getTableNumber());
-
                 int rowsInserted = statement.executeUpdate();
                 System.out.println("Rows inserted: " + rowsInserted);
             }

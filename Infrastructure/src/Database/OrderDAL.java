@@ -63,7 +63,6 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
                 statement.setDouble(2, price);
                 statement.setInt(3, tableNumber);
                 statement.setInt(4, activeOrNot);
-
                 int rowsInserted = statement.executeUpdate();
                 System.out.println("Rows inserted: " + rowsInserted);
             }

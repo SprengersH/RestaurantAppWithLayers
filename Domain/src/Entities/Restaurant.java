@@ -11,8 +11,8 @@ public class Restaurant {
     private List<Table> tableList;
 
 
-    public Restaurant(int capacity) {
-        this.capacity = capacity;
+    public Restaurant() {
+        this.capacity = 10;
         this.tableList = new ArrayList<>();
         for (int i = 0; i < capacity; i++) {
             Table table = new Table(i + 1);
@@ -21,7 +21,6 @@ public class Restaurant {
     }
 
     public void printAllTables() {
-
         for (Table table : tableList) {
             System.out.println(table);
         }
