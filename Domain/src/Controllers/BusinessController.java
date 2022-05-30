@@ -81,11 +81,11 @@ public class BusinessController {
         return orderRepo.retrieveItemsFromOrder(orderID);
     }
 
-    public void getOrderFromTablenumber(int tableToCheckout) {
+    public Order getOrderFromTablenumber(int tableToCheckout) {
         String orderID = retrieveOrderID(tableToCheckout);
         List<Item> menuItemsToBill = getItemListFromOrderID(orderID);
         Order order = new Order(tableToCheckout, orderID, menuItemsToBill);
-        checkForDiscounts(order);
+        return order;
     }
 
 
@@ -109,6 +109,11 @@ public class BusinessController {
         List<DiscountRules> discountRules = new ArrayList<>();
         discountRules.add(new BeerDiscount(order));
         discountRules.add(new CombiDiscount(order));
-        order.getDiscounts(discountRules);
+        order = order.getDiscounts(discountRules);
+        updateOrder(order);
+    }
+
+    private void updateOrder(Order order) {
+        orderRepo.updateOrder(order);
     }
 }

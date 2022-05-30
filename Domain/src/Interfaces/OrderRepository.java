@@ -21,4 +21,6 @@ public interface OrderRepository {
     List<Integer> getProductIDs(String orderID);
 
     void setAvailable(int tableNumber);
+
+    void updateOrder(Order order);
 }

@@ -187,4 +187,26 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void updateOrder(Order order) {
+        try {
+            openDatabaseConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try (PreparedStatement statement = connection.prepareStatement(
+                "UPDATE orders SET orderprice = ? WHERE orderid = ?")) {
+
+                statement.setDouble(1, order.getPrice());
+                statement.setString(2, order.getOrderID());
+
+                int rowsInserted = statement.executeUpdate();
+                System.out.println("Rows inserted: " + rowsInserted);
+
+            closeDatabaseConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

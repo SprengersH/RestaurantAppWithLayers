@@ -90,11 +90,12 @@ public class Order {
     }
 
 
-    public void getDiscounts(List<DiscountRules> discountRules) {
+    public Order getDiscounts(List<DiscountRules> discountRules) {
         double totalDiscount = 0;
         for (DiscountRules discounters : discountRules) {
             totalDiscount += discounters.applyDiscount();
         }
         this.totalPrice -= (totalPrice / 100 * totalDiscount);
+        return this;
     }
 }

@@ -4,6 +4,7 @@ import Controllers.BusinessController;
 import Database.ItemDAL;
 import Database.OrderDAL;
 import Entities.Item;
+import Entities.Order;
 import Entities.Restaurant;
 
 import java.util.ArrayList;
@@ -138,11 +139,6 @@ public class Main {
 
             int chosenItem = scanner.nextInt();
 
-            if (chosenItem == -1) {
-                keepGoing = false;
-                courseSelector();
-            }
-
             if (chosenItem < 1) { // when <1 is entered check if the list has at least 1 item to add to the order.
 
                 if (selectedItems.size() < 1) { // if list is <1 there are no selected items yet, keep going.
@@ -175,7 +171,9 @@ public class Main {
         String input = scanner.nextLine().toUpperCase();
 
         if (input.equalsIgnoreCase("Y")) {
-            businessController.getOrderFromTablenumber(tableToCheckout);
+            Order order = businessController.getOrderFromTablenumber(tableToCheckout);
+            businessController.checkForDiscounts(order);
+            // todo print order nicely maybe before and after discount??
             businessController.setAvailable(tableToCheckout); // in db
             setTableAvailable(tableToCheckout);           // in memory
 
