@@ -12,22 +12,17 @@ public class ItemDAL implements ItemRepository {
     private static Connection connection;
 
     private void openDatabaseConnection() throws SQLException {
-        System.out.println("Connecting to the database...");
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/bppdatabase",
                 "Oefenacc",
                 "Oefenacc");
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     private void closeDatabaseConnection() throws SQLException {
-        System.out.println("Closing the database connection...");
         connection.close();
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     public ArrayList<Item> getAllItems() {
-        System.out.println("Reading data...");
         try {
             openDatabaseConnection();
             ArrayList<Item> allMenuItemsList = new ArrayList<>();
@@ -52,7 +47,6 @@ public class ItemDAL implements ItemRepository {
     }
 
     public ArrayList<Item> selectMenu(int menunumber) {
-        System.out.println("Reading data...");
         try {
             openDatabaseConnection();
             ArrayList<Item> itemsList = new ArrayList<>();

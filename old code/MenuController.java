@@ -9,7 +9,6 @@ import java.util.List;
 public class MenuController {
 
     private ItemRepository itemRepo;
-
     private List<Item> items;
     private int currentMenu;
 
@@ -17,6 +16,7 @@ public class MenuController {
     public MenuController(ItemRepository itemRepo) {
         this.currentMenu = 1; // default menu is menu 1.
         this.itemRepo = itemRepo;
+        this.items = getAllItems();
     }
 
     public void setCurrentMenu(int currentMenu) {
@@ -27,12 +27,6 @@ public class MenuController {
         items = itemRepo.getAllItems();
         return items;
     }
-
-//    public void loadMenu(int menuNumber) {
-//     this might cycle through all the menuItems and put them into different Lists of menu's.
-//     at the moment the menuNumber(to which menu it belongs(summer,winter etc.)) is embedded in each menuItem.
-//    Menu menu = new Menu(1);
-//    }
 
 
     public ArrayList<Item> printCurrentMenu() {

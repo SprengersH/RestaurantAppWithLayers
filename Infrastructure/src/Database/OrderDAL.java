@@ -1,7 +1,6 @@
 package Database;
 
 import Entities.Order;
-import Interfaces.ItemRepository;
 import Interfaces.OrderRepository;
 import Entities.Item;
 
@@ -14,23 +13,18 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
     Connection connection;
 
     private void openDatabaseConnection() throws SQLException {
-        System.out.println("Connecting to the database...");
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/bppdatabase",
                 "Oefenacc",
                 "Oefenacc");
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     private void closeDatabaseConnection() throws SQLException {
-        System.out.println("Closing the database connection...");
         connection.close();
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     @Override
     public ArrayList<Order> getOrders() {
-        System.out.println("Reading data...");
         try {
             openDatabaseConnection();
             ArrayList<Order> allOrderList = new ArrayList<>();
@@ -54,7 +48,6 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
     }
 
     public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
-        System.out.println("Creating data...");
         try {
             openDatabaseConnection();
             try (PreparedStatement statement = connection.prepareStatement(
@@ -74,7 +67,6 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
 
 
     public void insertOrderToProduct(Order orderToLink, List<Item> itemsToLink) {
-        System.out.println("Creating data...");
         try {
             openDatabaseConnection();
         } catch (SQLException e) {
@@ -82,9 +74,9 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         }
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO `order-product` (orderid, productid, tablenumber, active) VALUES (?,?,?,?)")) {
-            for (Item Item : orderToLink.getOrderedItems()) {
+            for (Item item : orderToLink.getOrderedItems()) {
                 statement.setString(1, orderToLink.getOrderID());
-                statement.setInt(2, Item.getMenuItemID());
+                statement.setInt(2, item.getMenuItemID());
                 statement.setInt(3, orderToLink.getTableNumber());
                 statement.setInt(4, orderToLink.getActive());
 
@@ -139,7 +131,12 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
-                    Item menuItem = new Item(rs.getInt("menuitemid"), rs.getInt("menunumber"), rs.getString("coursetype"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"));
+                    Item menuItem = new Item(rs.getInt("menuitemid"),
+                            rs.getInt("menunumber"),
+                            rs.getString("coursetype"),
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getDouble("price"));
                     listToBill.add(menuItem);
                 }
             }

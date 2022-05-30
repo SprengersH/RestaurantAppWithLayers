@@ -1,12 +1,8 @@
 package UI;
 
-import Controllers.BillController;
-import Controllers.MenuController;
-import Controllers.OrderController;
-import Database.BillDAL;
+import Controllers.BusinessController;
 import Database.ItemDAL;
 import Database.OrderDAL;
-import Entities.Bill;
 import Entities.Item;
 import Entities.Restaurant;
 
@@ -19,9 +15,7 @@ public class Main {
     private static final Restaurant myRestaurant = new Restaurant();
     private static final Scanner scanner = new Scanner(System.in);
     private static final UI ui = new UI();
-    private static final MenuController menuController = new MenuController(new ItemDAL());
-    private static final OrderController orderController = new OrderController(new ItemDAL(), new OrderDAL());
-    private static final BillController billController = new BillController(new ItemDAL(), new OrderDAL(), new BillDAL());
+    private static final BusinessController businessController = new BusinessController(new ItemDAL(), new OrderDAL());
 
 
     public static void main(String[] args) {
@@ -64,15 +58,13 @@ public class Main {
         }
     }
 
-
-
     private static void orderMode() {
         System.out.println("Select table number:");
         int tableNumber = scanner.nextInt();
-        CourseSelector();
+        courseSelector();
         List<Item> toAdd;
         toAdd = itemSelector();
-        orderController.addItemsToOrder(toAdd, tableNumber);
+        businessController.addItemsToOrder(toAdd, tableNumber);
         myRestaurant.setUnavailable(tableNumber);
         run();
     }
@@ -82,14 +74,13 @@ public class Main {
         int input = scanner.nextInt();
         switch (input) {
             case (1) -> {
-                // TODO this should show the contents of the current menu with courses etc for design, maybe when i've got extra time and everything works
                 System.out.println("selected 1");
                 System.out.println("this doesn't do anything yet");
                 menuMode();
             }
             case (2) -> {
                 System.out.println("Displaying current menu:");
-                Printer.print(menuController.printCurrentMenu());
+                Printer.print(businessController.printCurrentMenu());
                 menuMode();
             }
             case (3) -> {
@@ -108,22 +99,24 @@ public class Main {
 
 
 
-    private static void CourseSelector() {
+    private static void courseSelector() {
         ui.showCourses();
         int course = scanner.nextInt();
         switch (course) {
             case (1) -> {
                 ui.showDrinksPage();
-                List<Item> drinks = menuController.printCourse("DRINKS");
+                List<Item> drinks = businessController.printCourse("DRINKS");
                 Printer.print(drinks);
             }
             case (2) -> {
                 ui.showMainCourses();
-                menuController.printCourse("MAIN COURSE");
+                List<Item> mainCourses = businessController.printCourse("MAIN COURSE");
+                Printer.print(mainCourses);
             }
             case (3) -> {
                 ui.showSideDishes();
-                menuController.printCourse("SIDE DISH");
+                List<Item> sideDish = businessController.printCourse("SIDE DISH");
+                Printer.print(sideDish);
             }
             case (4) -> {
                 System.out.println("Going back to the main page:");
@@ -131,7 +124,7 @@ public class Main {
             }
             default -> {
                 System.out.println("Please choose a valid option.");
-                CourseSelector();
+                courseSelector();
             }
         }
     }
@@ -145,6 +138,11 @@ public class Main {
 
             int chosenItem = scanner.nextInt();
 
+            if (chosenItem == -1) {
+                keepGoing = false;
+                courseSelector();
+            }
+
             if (chosenItem < 1) { // when <1 is entered check if the list has at least 1 item to add to the order.
 
                 if (selectedItems.size() < 1) { // if list is <1 there are no selected items yet, keep going.
@@ -153,12 +151,12 @@ public class Main {
                     keepGoing = false; // if list is >0 when "0" is entered, stop keepGoing.
                 }
             } else { // if input is >=1 search all items and check that item exists.
-                boolean containsID = menuController.getAllItems().stream().anyMatch(item -> chosenItem == (item.getMenuItemID()));
+                boolean containsID = businessController.getAllItems().stream().anyMatch(item -> chosenItem == (item.getMenuItemID()));
                 // this now uses a list from in-memory repository instead of database
                 if (!containsID) { // if it doesn't exist, start over, if it does add it the list.
                     System.out.println("No such item in the menu, please try again");
                 }
-                for (Item menuItem : menuController.getAllItems()) { // check all items and add the selection of the user to the list
+                for (Item menuItem : businessController.getAllItems()) { // check all items and add the selection of the user to the list
                     if (menuItem.getMenuItemID() == chosenItem) {
                         selectedItems.add(menuItem);
                     }
@@ -171,17 +169,16 @@ public class Main {
     private static void billingMode() {
         System.out.println("Enter table number to checkout:.....");
         int tableToCheckout = scanner.nextInt();
-        Bill bill = billController.billing(tableToCheckout);
-        System.out.println("Checking out: \n" + bill + "\n Type 'Y' to clear table and return to main menu \n 'N' returns to main menu without checking out");
+
+        System.out.println("Checking out table: \n" + tableToCheckout + "\n Type 'Y' to clear table and return to main menu \n 'N' returns to main menu without checking out");
         scanner.nextLine();
         String input = scanner.nextLine().toUpperCase();
 
         if (input.equalsIgnoreCase("Y")) {
-            // todo this is where discounts should happen.
-            billController.setAvailable(tableToCheckout); // in db
+            businessController.getOrderFromTablenumber(tableToCheckout);
+            businessController.setAvailable(tableToCheckout); // in db
             setTableAvailable(tableToCheckout);           // in memory
-            // bill could be sent to the database here...
-            billController.insertBill(bill);
+
             run();
         }
         if (input.equalsIgnoreCase("N")) {
@@ -193,7 +190,7 @@ public class Main {
     }
 
     public String retrieveOrderID(int tableNumber) {
-        return orderController.retrieveOrderID(tableNumber);
+        return businessController.retrieveOrderID(tableNumber);
     }
 
     private static void tableMode() {
@@ -209,7 +206,7 @@ public class Main {
         int input;
         System.out.println("Select new menu:");
         input = scanner.nextInt();
-        menuController.setCurrentMenu(input);
+        businessController.setCurrentMenu(input);
         System.out.println("Changed to menu " + input);
     }
 

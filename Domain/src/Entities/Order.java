@@ -1,6 +1,6 @@
 package Entities;
 
-import Entities.Item;
+import Interfaces.DiscountRules;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,8 +12,7 @@ public class Order {
     private double totalPrice;
     private int tableNumber;
     private int active;
-    // sql wouldn't let me use boolean and didn't want to use tinyint.
-    // 1 for active 0 for inactive
+
 
     public Order(int tableNumber, List<Item> items) {
         this.orderID = UUID.randomUUID().toString();
@@ -30,6 +29,16 @@ public class Order {
         this.totalPrice = totalPrice;
         this.tableNumber = tableNumber;
         this.active = active;
+    }
+
+    public Order(int tableNumber, String orderID, List<Item> items) {
+        this.orderID = orderID;
+        this.items = items;
+        for (Item item : items) {
+            this.totalPrice += item.getPrice();
+        }
+        this.tableNumber = tableNumber;
+        this.active = 1;
     }
 
 
@@ -81,4 +90,11 @@ public class Order {
     }
 
 
+    public void getDiscounts(List<DiscountRules> discountRules) {
+        double totalDiscount = 0;
+        for (DiscountRules discounters : discountRules) {
+            totalDiscount += discounters.applyDiscount();
+        }
+        this.totalPrice -= (totalPrice / 100 * totalDiscount);
+    }
 }

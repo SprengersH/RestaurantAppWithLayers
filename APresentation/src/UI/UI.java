@@ -46,7 +46,8 @@ public class UI {
         System.out.println("*    DRINKS PAGE                             *");
         System.out.println(SPACING);
         System.out.println("*    Select your option and hit enter or     *");
-        System.out.println("*    0 to end ordering and go back to main   *");
+        System.out.println("*    0 to complete order                     *");
+        System.out.println("*    -1 to go back to courses                *");
         System.out.println(SPACING);
     }
 

@@ -13,23 +13,18 @@ public class BillDAL implements BillRepository {
     private static Connection connection;
 
     private void openDatabaseConnection() throws SQLException {
-        System.out.println("Connecting to the database...");
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/bppdatabase",
                 "Oefenacc",
                 "Oefenacc");
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     private void closeDatabaseConnection() throws SQLException {
-        System.out.println("Closing the database connection...");
         connection.close();
-        System.out.println("Connection valid: " + connection.isValid(5));
     }
 
     @Override
     public void insertBill(Bill bill) {
-        System.out.println("Creating data...");
         try {
             openDatabaseConnection();
             try (PreparedStatement statement = connection.prepareStatement(

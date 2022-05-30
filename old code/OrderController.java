@@ -5,19 +5,15 @@ import Entities.Order;
 import Interfaces.ItemRepository;
 import Interfaces.OrderRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderController {
 
     private OrderRepository orderRepo;
-    private ItemRepository itemRepo;
     List<Order> orders;
-    List<Item> items;
 
-    public OrderController(ItemRepository itemRepo, OrderRepository orderRepo) {
+    public OrderController(OrderRepository orderRepo) {
         this.orderRepo = orderRepo;
-        this.itemRepo = itemRepo;
     }
 
     public List<Order> getOrders() {
