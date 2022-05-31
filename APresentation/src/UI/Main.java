@@ -172,7 +172,11 @@ public class Main {
 
         if (input.equalsIgnoreCase("Y")) {
             Order order = businessController.getOrderFromTablenumber(tableToCheckout);
+            System.out.println("Order before discounts:");
+            System.out.println(order);
             businessController.checkForDiscounts(order);
+            System.out.println("Order after discounts:");
+            System.out.println(order);
             // todo print order nicely maybe before and after discount??
             businessController.setAvailable(tableToCheckout); // in db
             setTableAvailable(tableToCheckout);           // in memory

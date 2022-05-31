@@ -23,9 +23,9 @@ public class BusinessController {
     public BusinessController(ItemRepository itemRepo, OrderRepository orderRepo) {
         this.currentMenu = 1; // default menu is menu 1.
         this.orderRepo = orderRepo;
-        this.orders = getOrders();
+        this.orders = orderRepo.getOrders();
         this.itemRepo = itemRepo;
-        this.items = getAllItems();
+        this.items = itemRepo.getAllItems();
 
     }
 
@@ -54,17 +54,21 @@ public class BusinessController {
     }
 
     public List<Item> getAllItems() {
-        items = itemRepo.getAllItems();
         return items;
     }
     public List<Order> getOrders() {
-        orders = orderRepo.getOrders();
         return orders;
     }
 
     public void addItemsToOrder(List<Item> itemsToAdd, int tableNumber) {
-        Order order = new Order(tableNumber, itemsToAdd);
-        addOrderToDatabase(order);
+        String orderID = orderRepo.getOrderidFromTablenumber(tableNumber);
+        Order order;
+        if (orderID.equals("")) {
+            order = new Order(tableNumber, itemsToAdd);
+            addOrderToDatabase(order);
+        } else {
+            order = new Order(tableNumber,orderID,itemsToAdd);
+        }
         linkOrderToProduct(order, itemsToAdd);
         itemsToAdd.clear();
     }

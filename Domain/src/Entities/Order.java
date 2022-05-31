@@ -82,11 +82,10 @@ public class Order {
 
 
     public String toString() {
-        return "Order{" +
-                "orderedMenuItems=" + items +
-                ", totalPrice=" + totalPrice +
-                ", tableNumber=" + tableNumber + ", active=" + active +
-                '}';
+
+        return "Your Order: \n" +
+                items +
+                "\n TotalPrice: " + totalPrice;
     }
 
 
