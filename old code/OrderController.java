@@ -1,9 +1,9 @@
-package Controllers;
+package domain.Controllers;
 
-import Entities.Item;
-import Entities.Order;
-import Interfaces.ItemRepository;
-import Interfaces.OrderRepository;
+import domain.Entities.Item;
+import domain.Entities.Order;
+import domain.Interfaces.ItemRepository;
+import domain.Interfaces.OrderRepository;
 
 import java.util.List;
 

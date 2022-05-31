@@ -1,7 +1,7 @@
-package Database;
+package infrastructure.Database;
 
-import Entities.Bill;
-import Interfaces.BillRepository;
+import domain.Entities.Bill;
+import domain.Interfaces.BillRepository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,7 +1,7 @@
-package Controllers;
+package domain.Controllers;
 
-import Entities.Item;
-import Interfaces.ItemRepository;
+import domain.Entities.Item;
+import domain.Interfaces.ItemRepository;
 
 import java.util.ArrayList;
 import java.util.List;

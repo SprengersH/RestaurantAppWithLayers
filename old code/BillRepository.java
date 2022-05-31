@@ -1,6 +1,6 @@
-package Interfaces;
+package domain.Interfaces;
 
-import Entities.Bill;
+import domain.Entities.Bill;
 
 public interface BillRepository {
 
