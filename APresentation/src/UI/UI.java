@@ -64,5 +64,17 @@ public class UI {
         System.out.println(SPACING);
         System.out.println("*    Select your option or 0 to cancel order:*");
     }
+
+    public void showSalesPage() {
+        System.out.println(SPACING);
+        System.out.println("*    SALES  PAGE                             *");
+        System.out.println(SPACING);
+        System.out.println("*    Select your option and hit enter or     *");
+        System.out.println("*    1. Sales last month                     *");
+        System.out.println("*    2. Sales last week                      *");
+        System.out.println("*    3. Sales last day                       *");
+        System.out.println("*    0. Go back to the main page             *");
+        System.out.println(SPACING);
+    }
 }
 

@@ -5,6 +5,7 @@ import Interfaces.OrderRepository;
 import Entities.Item;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,15 +48,16 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         }
     }
 
-    public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot) {
+    public void insertOrder(String orderID, double price, int tableNumber, int activeOrNot, LocalDate orderDate) {
         try {
             openDatabaseConnection();
             try (PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO `orders` (orderid, orderprice, tablenumber, active)VALUES(?,?,?,?)")) {
+                    "INSERT INTO `orders` (orderid, orderprice, tablenumber, active, orderdate)VALUES(?,?,?,?,?)")) {
                 statement.setString(1, orderID);
                 statement.setDouble(2, price);
                 statement.setInt(3, tableNumber);
                 statement.setInt(4, activeOrNot);
+                statement.setDate(5, Date.valueOf(orderDate));
                 int rowsInserted = statement.executeUpdate();
                 System.out.println("Rows inserted: " + rowsInserted);
             }
@@ -208,5 +210,10 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void getSales(LocalDate timePeriod) {
+ // todo sales query here
     }
 }

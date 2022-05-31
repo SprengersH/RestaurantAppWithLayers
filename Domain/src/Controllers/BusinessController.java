@@ -8,14 +8,13 @@ import Interfaces.DiscountRules;
 import Interfaces.ItemRepository;
 import Interfaces.OrderRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessController {
 
     private OrderRepository orderRepo;
-    private ItemRepository itemRepo;
-
     private List<Order> orders;
     private List<Item> items;
     private int currentMenu;
@@ -24,7 +23,6 @@ public class BusinessController {
         this.currentMenu = 1; // default menu is menu 1.
         this.orderRepo = orderRepo;
         this.orders = orderRepo.getOrders();
-        this.itemRepo = itemRepo;
         this.items = itemRepo.getAllItems();
 
     }
@@ -74,7 +72,7 @@ public class BusinessController {
     }
 
     public void addOrderToDatabase(Order order) {
-        orderRepo.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive());
+        orderRepo.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive(), order.getDate());
     }
 
     public void linkOrderToProduct(Order order, List<Item> orderedMenuMenuItems){
@@ -119,5 +117,13 @@ public class BusinessController {
 
     private void updateOrder(Order order) {
         orderRepo.updateOrder(order);
+    }
+
+    public void getSales(String timePeriod) {
+        if (timePeriod.equalsIgnoreCase("MONTH")) {
+            LocalDate dt = LocalDate.now();
+            orderRepo.getSales(LocalDate.from(dt.getMonth()));
+        }
+
     }
 }

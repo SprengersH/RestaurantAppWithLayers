@@ -3,6 +3,7 @@ package Interfaces;
 import Entities.Item;
 import Entities.Order;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface OrderRepository {
 
     ArrayList<Order> getOrders();
 
-    void insertOrder(String orderID, double price, int tableNumber, int activeOrNot);
+    void insertOrder(String orderID, double price, int tableNumber, int activeOrNot, LocalDate date);
 
     void insertOrderToProduct(Order order, List<Item> orderedMenuMenuItems);
 
@@ -23,4 +24,6 @@ public interface OrderRepository {
     void setAvailable(int tableNumber);
 
     void updateOrder(Order order);
+
+    void getSales(LocalDate timePeriod);
 }

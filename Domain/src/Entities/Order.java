@@ -2,6 +2,7 @@ package Entities;
 
 import Interfaces.DiscountRules;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class Order {
     private double totalPrice;
     private int tableNumber;
     private int active;
+    private LocalDate orderDate;
 
 
     public Order(int tableNumber, List<Item> items) {
@@ -22,6 +24,7 @@ public class Order {
         }
         this.tableNumber = tableNumber;
         this.active = 1;
+        this.orderDate = LocalDate.now();
     }
 
     public Order(String orderID, double totalPrice, int tableNumber, int active) {
@@ -96,5 +99,9 @@ public class Order {
         }
         this.totalPrice -= (totalPrice / 100 * totalDiscount);
         return this;
+    }
+
+    public LocalDate getDate() {
+        return this.orderDate;
     }
 }

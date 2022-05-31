@@ -7,6 +7,7 @@ import Entities.Item;
 import Entities.Order;
 import Entities.Restaurant;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -52,11 +53,37 @@ public class Main {
             // TODO this should ask for a time period and show you the sales in that period.
             case (5) -> {
                 System.out.println("selected sales records");
-                System.out.println("Nothing here yet, go back");
+                salesMode();
+            }
+            default -> System.out.println("Please choose a valid option.");
+        }
+    }
+
+    private static void salesMode() {
+        ui.showSalesPage();
+        int input = scanner.nextInt();
+        switch (input) {
+            case (1) -> {
+                System.out.println("Selected month");
+                businessController.getSales(month);
+            }
+            case (2) -> {
+                System.out.println("Displaying current menu:");
+                Printer.print(businessController.printCurrentMenu());
+                menuMode();
+            }
+            case (3) -> {
+                System.out.println("Changing menu's");
+                changeMenu();
+                menuMode();
+            }
+            case (4) -> {
+                System.out.println("Going back to the main page:");
                 run();
             }
             default -> System.out.println("Please choose a valid option.");
         }
+
     }
 
     private static void orderMode() {
