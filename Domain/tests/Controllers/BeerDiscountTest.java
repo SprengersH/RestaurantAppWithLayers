@@ -23,7 +23,6 @@ class BeerDiscountTest {
         Item item3 = new Item(5, 1, "DRINKS", "Bier", "testBier", 2.0);
         Item item4 = new Item(5, 1, "DRINKS", "Bier", "testBier", 2.0);
         Item item5 = new Item(5, 1, "DRINKS", "Bier", "testBier", 2.0);
-        Item item6 = new Item(5, 1, "DRINKS", "Bier", "testBier", 2.0);
         items.add(item1);
         items.add(item2);
         items.add(item3);

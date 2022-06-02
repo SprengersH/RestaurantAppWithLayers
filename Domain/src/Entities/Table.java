@@ -24,7 +24,7 @@ public class Table {
 
     @Override
     public String toString() {
-        String s = "";
+        String s;
         if (available) {
             s = "*  Table " +
                     tableNumber +

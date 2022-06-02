@@ -109,7 +109,7 @@ public class BusinessController {
         List<DiscountRules> discountRules = new ArrayList<>();
         discountRules.add(new BeerDiscount(order));
         discountRules.add(new CombiDiscount(order));
-        order = order.getDiscounts(discountRules);
+        order = order.getPriceAfterDiscounts(discountRules);
         updateOrder(order);
     }
 

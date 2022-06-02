@@ -1,12 +1,9 @@
 package Entities;
 
-import Entities.Item;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.*;
 
-// at the moment this class doesnt do anything yet as the menuNumber is embedded in each menuItem.
+
+// at the moment this class doesn't do anything yet as the menuNumber is embedded in each menuItem.
 
 public class Menu {
 

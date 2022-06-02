@@ -18,16 +18,6 @@ public class Item {
         this.price = price;
     }
 
-    public Item() {
-        this.menuItemID = menuItemID;
-        this.menuNumber = menuNumber;
-        this.courseType = courseType;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
-
-
     public int getMenuNumber() {
         return menuNumber;
     }
@@ -50,11 +40,6 @@ public class Item {
 
     public String getName() {
         return name;
-    }
-
-
-    public String getDescription() {
-        return description;
     }
 
     

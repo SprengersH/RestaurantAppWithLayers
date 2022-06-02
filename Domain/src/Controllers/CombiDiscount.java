@@ -20,13 +20,16 @@ public class CombiDiscount implements DiscountRules {
         boolean side = false;
 
         for (Item item : order.getOrderedItems()) {
-            if (item.getCourseType().equalsIgnoreCase("Drinks")) {
+            if (item.getCourseType().equalsIgnoreCase(
+                    "Drinks")) {
                 drinks = true;
             }
-            if (item.getCourseType().equalsIgnoreCase("main course")) {
+            if (item.getCourseType().equalsIgnoreCase(
+                    "main course")) {
                 main = true;
             }
-            if (item.getCourseType().equalsIgnoreCase("side dish")) {
+            if (item.getCourseType().equalsIgnoreCase(
+                    "side dish")) {
                 side = true;
             }
         }

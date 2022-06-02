@@ -92,7 +92,7 @@ public class Order {
     }
 
 
-    public Order getDiscounts(List<DiscountRules> discountRules) {
+    public Order getPriceAfterDiscounts(List<DiscountRules> discountRules) {
         double totalDiscount = 0;
         for (DiscountRules discounters : discountRules) {
             totalDiscount += discounters.applyDiscount();

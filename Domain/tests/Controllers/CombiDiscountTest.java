@@ -17,12 +17,6 @@ class CombiDiscountTest {
 
     private List<Item> items = new ArrayList<>();
 
-    @BeforeEach
-    void setUp() {
-//        MockitoAnnotations.openMocks(this);
-       // underTest = new CombiDiscount(order);
-    }
-
     @Test
     void ShouldApplyDiscount() {
         // given

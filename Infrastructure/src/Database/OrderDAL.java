@@ -93,7 +93,7 @@ public class OrderDAL extends DatabasePath implements OrderRepository {
 
 // todo better data queries below this line needed
     public String getOrderidFromTablenumber(int tableNumber) {
-        Connection conn = null;
+        Connection conn;
         try {
             conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             // Generate a prepared statement with the placeholder parameter.
