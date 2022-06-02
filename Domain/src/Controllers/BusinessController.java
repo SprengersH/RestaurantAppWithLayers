@@ -22,11 +22,14 @@ public class BusinessController {
         this.orderRepo = orderRepo;
         this.orders = orderRepo.getOrders();
         this.items = itemRepo.getAllItems();
-
     }
 
     public void setCurrentMenu(int currentMenu) {
         this.currentMenu = currentMenu;
+    }
+
+    public int getCurrentMenu() {
+        return currentMenu;
     }
 
     public ArrayList<Item> printCurrentMenu() {
@@ -52,6 +55,7 @@ public class BusinessController {
     public List<Item> getAllItems() {
         return items;
     }
+
     public List<Order> getOrders() {
         return orders;
     }
@@ -63,7 +67,7 @@ public class BusinessController {
             order = new Order(tableNumber, itemsToAdd);
             addOrderToDatabase(order);
         } else {
-            order = new Order(tableNumber,orderID,itemsToAdd);
+            order = new Order(tableNumber, orderID, itemsToAdd);
         }
         linkOrderToProduct(order, itemsToAdd);
         itemsToAdd.clear();
@@ -73,7 +77,7 @@ public class BusinessController {
         orderRepo.insertOrder(order.getOrderID(), order.getPrice(), order.getTableNumber(), order.getActive(), order.getDate());
     }
 
-    public void linkOrderToProduct(Order order, List<Item> orderedMenuMenuItems){
+    public void linkOrderToProduct(Order order, List<Item> orderedMenuMenuItems) {
         orderRepo.insertOrderToProduct(order, orderedMenuMenuItems);
     }
 
@@ -90,7 +94,7 @@ public class BusinessController {
 
 
     public List<Item> getItemListFromOrderID(String orderID) {
-       return orderRepo.retrieveItemsFromOrder(orderID);
+        return orderRepo.retrieveItemsFromOrder(orderID);
     }
 
     public String retrieveOrderID(int tableNumber) {
@@ -109,7 +113,7 @@ public class BusinessController {
         List<DiscountRules> discountRules = new ArrayList<>();
         discountRules.add(new BeerDiscount(order));
         discountRules.add(new CombiDiscount(order));
-        order = order.getPriceAfterDiscounts(discountRules);
+        order.getPriceAfterDiscounts(discountRules);
         updateOrder(order);
     }
 
@@ -122,6 +126,5 @@ public class BusinessController {
             LocalDate dt = LocalDate.now();
             orderRepo.getSales(LocalDate.from(dt.getMonth()));
         }
-
     }
 }

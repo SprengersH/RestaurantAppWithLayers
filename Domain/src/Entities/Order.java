@@ -92,13 +92,12 @@ public class Order {
     }
 
 
-    public Order getPriceAfterDiscounts(List<DiscountRules> discountRules) {
+    public void getPriceAfterDiscounts(List<DiscountRules> discountRules) {
         double totalDiscount = 0;
         for (DiscountRules discounters : discountRules) {
             totalDiscount += discounters.applyDiscount();
         }
         this.totalPrice -= (totalPrice / 100 * totalDiscount);
-        return this;
     }
 
     public LocalDate getDate() {

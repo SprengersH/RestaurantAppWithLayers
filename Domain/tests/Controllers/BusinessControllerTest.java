@@ -1,30 +1,54 @@
 package Controllers;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import Entities.Item;
 import org.junit.jupiter.api.Test;
+
+
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BusinessControllerTest {
 
-    private BusinessController underTest;
-
-    @BeforeEach
-    void setUp() {
-
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+    private final BusinessController underTest = new BusinessController(
+            new MockItemDAL(),
+            new MockOrderDAL()
+    );
 
     @Test
     void checkForDiscounts() {
-//        // Given
-//        Order order = new Order("1", )
-//        given(orderRepository.getOrders()).willReturn(order);
-//        // When
-//        underTest.checkForDiscounts(order);
-//        // Then
 
+
+    }
+
+    @Test
+    void shouldSetCurrentMenuToTwo() {
+        // given
+        int expected = 2;
+        // when
+        underTest.setCurrentMenu(2);
+        // then
+        assertEquals(expected, underTest.getCurrentMenu());
+    }
+
+
+    @Test
+    void printCurrentMenu() {
+        // given
+        ArrayList<Item> toPrint = underTest.printCurrentMenu();
+        int expected = 3;
+        int actual = toPrint.size();
+        // then
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    void getAllItems() {
+
+    }
+
+    @Test
+    void getOrders() {
     }
 }

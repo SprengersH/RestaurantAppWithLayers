@@ -1,9 +1,8 @@
 package Controllers;
 
-import Controllers.CombiDiscount;
 import Entities.Item;
 import Entities.Order;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CombiDiscountTest {
 
+    @AfterEach
+    void tearDown() {
+        items.clear();
+    }
 
     private List<Item> items = new ArrayList<>();
 
@@ -33,6 +36,7 @@ class CombiDiscountTest {
         int expected = 10;
         assertEquals(expected, result);
     }
+
     @Test
     void ShouldNotApplyDiscount() {
         // given
