@@ -1,5 +1,7 @@
-package Entities;
+package Controllers;
 
+import Entities.Item;
+import Entities.Order;
 import Interfaces.DiscountRules;
 
 public class CombiDiscount implements DiscountRules {

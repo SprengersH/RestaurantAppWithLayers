@@ -65,7 +65,7 @@ public class Main {
         switch (input) {
             case (1) -> {
                 System.out.println("Selected month");
-                businessController.getSales(month);
+                businessController.getSales("month");
             }
             case (2) -> {
                 System.out.println("Displaying current menu:");
@@ -100,6 +100,7 @@ public class Main {
     public static void menuMode() {
         ui.showMenuPage();
         int input = scanner.nextInt();
+        
         switch (input) {
             case (1) -> {
                 System.out.println("selected 1");

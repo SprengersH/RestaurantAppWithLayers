@@ -1,5 +1,7 @@
-package Entities;
+package Controllers;
 
+import Entities.Item;
+import Entities.Order;
 import Interfaces.DiscountRules;
 
 public class BeerDiscount implements DiscountRules {
@@ -19,7 +21,7 @@ public class BeerDiscount implements DiscountRules {
             if (item.getMenuItemID() == 5) {
                 numberOfBeers++;
             }
-            if (numberOfBeers > 5) {
+            if (numberOfBeers >= 5) {
                 return 10;
             }
         }

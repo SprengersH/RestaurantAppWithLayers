@@ -1,7 +1,5 @@
 package Controllers;
 
-import Entities.BeerDiscount;
-import Entities.CombiDiscount;
 import Entities.Item;
 import Entities.Order;
 import Interfaces.DiscountRules;
