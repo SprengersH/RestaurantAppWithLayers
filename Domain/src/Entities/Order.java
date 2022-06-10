@@ -99,6 +99,14 @@ public class Order {
         }
         this.totalPrice -= (totalPrice / 100 * totalDiscount);
     }
+    public void getPriceAfterDiscountsBetter(List<DiscountRules> discountRules) {
+        double totalDiscount = 0;
+        for (DiscountRules discounters : discountRules) {
+            totalDiscount += discounters.applyDiscountBetter(items);
+        }
+        this.totalPrice -= (totalPrice / 100 * totalDiscount);
+    }
+
 
     public LocalDate getDate() {
         return this.orderDate;

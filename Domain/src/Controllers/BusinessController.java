@@ -61,6 +61,7 @@ public class BusinessController {
     }
 
     public void addItemsToOrder(List<Item> itemsToAdd, int tableNumber) {
+        // this should just return the entire Order-object
         String orderID = orderRepo.getOrderidFromTablenumber(tableNumber);
         Order order;
         if (orderID.equals("")) {
@@ -113,7 +114,7 @@ public class BusinessController {
         List<DiscountRules> discountRules = new ArrayList<>();
         discountRules.add(new BeerDiscount(order));
         discountRules.add(new CombiDiscount(order));
-        order.getPriceAfterDiscounts(discountRules);
+        order.getPriceAfterDiscountsBetter(discountRules);
         updateOrder(order);
     }
 
